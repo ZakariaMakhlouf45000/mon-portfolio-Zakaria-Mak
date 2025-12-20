@@ -113,6 +113,48 @@
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
+        
+        /* Mobile Menu Styles */
+        #mobile-menu {
+            display: none;
+        }
+        #mobile-menu.open {
+            display: block;
+        }
+        #close-icon {
+            display: none;
+        }
+        #close-icon.show {
+            display: block;
+        }
+        #hamburger-icon.hide {
+            display: none;
+        }
+        
+        /* Desktop menu hidden on mobile by default */
+        .desktop-menu {
+            display: none;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 767px) {
+            #mobile-menu-btn {
+                display: block;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            #mobile-menu,
+            #mobile-menu.open {
+                display: none !important;
+            }
+            #mobile-menu-btn {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-accent-blue selection:text-white">
@@ -127,7 +169,7 @@
             </div>
             
             <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+            <div class="desktop-menu hidden md:flex space-x-8 text-sm font-medium text-slate-300">
                 <button onclick="showPage('home')" id="nav-home" class="nav-link hover:text-accent-cyan transition-colors py-1">01. Accueil</button>
                 <button onclick="showPage('projects')" id="nav-projects" class="nav-link hover:text-accent-cyan transition-colors py-1">02. Projets</button>
                 <button onclick="showPage('skills')" id="nav-skills" class="nav-link hover:text-accent-cyan transition-colors py-1">03. Compétences</button>
@@ -135,9 +177,28 @@
             </div>
 
             <!-- Mobile Menu Button (Hamburger) -->
-            <button class="md:hidden text-slate-100" onclick="alert('Menu mobile simplifié pour la démo')">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <button id="mobile-menu-btn" class="md:hidden text-slate-100" onclick="toggleMobileMenu()">
+                <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="md:hidden hidden bg-navy-800/95 backdrop-blur-md border-t border-white/5">
+            <div class="px-6 py-6 space-y-4">
+                <button onclick="showPage('home'); toggleMobileMenu();" class="mobile-nav-link block w-full text-left py-3 px-4 text-slate-300 hover:text-accent-cyan hover:bg-navy-700/50 rounded-lg transition-colors font-medium">
+                    <span class="text-accent-blue font-mono text-sm mr-3">01.</span>Accueil
+                </button>
+                <button onclick="showPage('projects'); toggleMobileMenu();" class="mobile-nav-link block w-full text-left py-3 px-4 text-slate-300 hover:text-accent-cyan hover:bg-navy-700/50 rounded-lg transition-colors font-medium">
+                    <span class="text-accent-blue font-mono text-sm mr-3">02.</span>Projets
+                </button>
+                <button onclick="showPage('skills'); toggleMobileMenu();" class="mobile-nav-link block w-full text-left py-3 px-4 text-slate-300 hover:text-accent-cyan hover:bg-navy-700/50 rounded-lg transition-colors font-medium">
+                    <span class="text-accent-blue font-mono text-sm mr-3">03.</span>Compétences
+                </button>
+                <button onclick="showPage('contact'); toggleMobileMenu();" class="mobile-nav-link block w-full text-left py-3 px-4 text-slate-300 hover:text-accent-cyan hover:bg-navy-700/50 rounded-lg transition-colors font-medium">
+                    <span class="text-accent-blue font-mono text-sm mr-3">04.</span>Contact
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -413,6 +474,20 @@
     </footer>
 
     <script>
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            // Toggle menu visibility
+            mobileMenu.classList.toggle('open');
+            
+            // Toggle icons
+            hamburgerIcon.classList.toggle('hide');
+            closeIcon.classList.toggle('show');
+        }
+
         function showPage(pageId) {
             // Logic to smoothly switch pages
             const pages = document.querySelectorAll('.page');
