@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Zakaria Makhlouf</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            900: '#0a192f', // Fond principal
+                            800: '#112240', // Cartes
+                            700: '#233554', // Bordures/Hover
+                        },
+                        accent: {
+                            blue: '#3b82f6', // Bleu vibrant
+                            cyan: '#64ffda', // Cyan tech
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #0a192f; 
+            color: #8892b0;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a192f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #233554;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+
+        .page { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
+        .page.active { display: block; opacity: 1; }
+        
+        /* Navigation Link Style */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active { color: #64ffda; }
+
+        /* Card Hover Effect */
+        .glass-card {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+        }
+
+        /* Typewriter Cursor */
+        .typing-cursor::after {
+            content: '▋';
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+            color: #64ffda; /* accent-cyan */
+            font-size: 0.8em;
+            line-height: 1;
+            opacity: 1;
+        }
+        @keyframes blink { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0; } 
+        }
+
+        /* Staggered Animation Delay helper */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-accent-blue selection:text-white">
+
+    <!-- NAVIGATION (Glassmorphism) -->
+    <nav class="fixed top-0 w-full z-50 bg-[#0a192f]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="font-bold text-2xl tracking-tighter text-slate-100 flex items-center gap-2 group cursor-pointer" onclick="showPage('home')">
+                <span class="text-accent-blue group-hover:rotate-12 transition-transform duration-300">&lt;</span>
+                ZM
+                <span class="text-accent-blue group-hover:-rotate-12 transition-transform duration-300">/&gt;</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <button onclick="showPage('home')" id="nav-home" class="nav-link hover:text-accent-cyan transition-colors py-1">01. Accueil</button>
+                <button onclick="showPage('projects')" id="nav-projects" class="nav-link hover:text-accent-cyan transition-colors py-1">02. Projets</button>
+                <button onclick="showPage('skills')" id="nav-skills" class="nav-link hover:text-accent-cyan transition-colors py-1">03. Compétences</button>
+                <button onclick="showPage('contact')" id="nav-contact" class="nav-link hover:text-accent-cyan transition-colors py-1">04. Contact</button>
+            </div>
+
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button class="md:hidden text-slate-100" onclick="alert('Menu mobile simplifié pour la démo')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- BACKGROUND GRADIENTS -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute -top-[20%] -right-[10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px]"></div>
+        <div class="absolute top-[40%] -left-[10%] w-[400px] h-[400px] bg-accent-cyan/5 rounded-full blur-[100px]"></div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 pt-32 pb-20 w-full">
+
+        <!-- PAGE ACCUEIL -->
+        <section id="home" class="page active">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-16 min-h-[60vh]">
+                <div class="flex-1">
+                    <!-- TYPEWRITER CONTAINER -->
+                    <p id="tw-1" class="text-accent-cyan font-mono mb-4 tracking-wider text-sm min-h-[1.5em]"></p>
+                    <h1 id="tw-2" class="text-5xl md:text-7xl font-bold text-slate-100 mb-4 tracking-tight leading-tight min-h-[1.2em]"></h1>
+                    <h2 class="text-4xl md:text-6xl font-bold text-slate-400 mb-8 leading-tight min-h-[1.2em]">
+                        <span id="tw-3-part1"></span><span id="tw-3-part2" class="text-accent-blue"></span>
+                    </h2>
+                    
+                    <div class="glass-card p-8 rounded-2xl mb-10 max-w-2xl border-l-4 border-l-accent-blue animate-fade-in-up delay-300" style="animation-fill-mode: backwards;">
+                        <p class="text-lg text-slate-300 leading-relaxed">
+                            Étudiant en <span class="text-accent-cyan">BUT Informatique</span> passionné par le développement et l'IA. 
+                            Je recherche une alternance de <span class="text-white font-bold">24 mois</span> dès septembre 2026 pour concevoir des architectures robustes et innovantes.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-5 animate-fade-in-up delay-300" style="animation-fill-mode: backwards;">
+                        <button onclick="showPage('projects')" class="bg-transparent border border-accent-blue text-accent-blue px-8 py-4 rounded-lg font-bold hover:bg-accent-blue/10 transition-all duration-300 flex items-center gap-2 group">
+                            Voir mes travaux
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </button>
+                        <a href="https://github.com/ZakariaMakhlouf45000" target="_blank" class="text-slate-300 px-8 py-4 font-bold hover:text-white transition-colors flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE PROJETS -->
+        <section id="projects" class="page">
+            <h2 class="flex items-center text-2xl md:text-3xl font-bold text-slate-100 mb-12 animate-fade-in-up">
+                <span class="text-accent-blue font-mono text-xl mr-4">02.</span>
+                Projets Sélectionnés
+                <span class="h-[1px] bg-navy-700 w-1/3 ml-6 hidden md:block"></span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Projet 1 -->
+                <div class="glass-card rounded-xl overflow-hidden group animate-fade-in-up delay-100">
+                    <div class="p-8 h-full flex flex-col relative">
+                        <!-- Icon folder top right -->
+                        <div class="absolute top-8 right-8 text-accent-cyan">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2 group-hover:text-accent-blue transition-colors">Gestion de Librairie</h3>
+                        <p class="text-accent-cyan font-mono text-xs mb-6">JAVA / SAE 2.01</p>
+                        
+                        <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                            Application desktop complète pour la gestion de stocks, commandes et recommandations.
+                            <br><br>
+                            <strong class="text-slate-200">Focus :</strong> Optimisation des algorithmes de recherche et structuration POO rigoureuse.
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <ul class="flex flex-wrap gap-3 text-xs font-mono text-slate-500">
+                                <li>Java</li>
+                                <li>Swing</li>
+                                <li>MySQL</li>
+                                <li>Clean Code</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 2 -->
+                <div class="glass-card rounded-xl overflow-hidden group animate-fade-in-up delay-200">
+                    <div class="p-8 h-full flex flex-col relative">
+                        <div class="absolute top-8 right-8 text-accent-cyan">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2 group-hover:text-accent-blue transition-colors">Architecture Réseau</h3>
+                        <p class="text-accent-cyan font-mono text-xs mb-6">GNS3 / SAE 2.03</p>
+                        
+                        <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                            Conception d'une infrastructure d'entreprise multi-sites sécurisée.
+                            <br><br>
+                            <strong class="text-slate-200">Focus :</strong> Segmentation VLAN, Routage dynamique RIP, Sécurisation DMZ.
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <ul class="flex flex-wrap gap-3 text-xs font-mono text-slate-500">
+                                <li>GNS3</li>
+                                <li>Cisco IOS</li>
+                                <li>DHCP</li>
+                                <li>VLAN</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 3 -->
+                <div class="glass-card rounded-xl overflow-hidden group animate-fade-in-up delay-300">
+                    <div class="p-8 h-full flex flex-col relative">
+                        <div class="absolute top-8 right-8 text-accent-cyan">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2 group-hover:text-accent-blue transition-colors">Graphes & Data</h3>
+                        <p class="text-accent-cyan font-mono text-xs mb-6">JAVA / JGRAPHT</p>
+                        
+                        <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                            Analyse de données complexes (JSON) pour modéliser des collaborations d'acteurs.
+                            <br><br>
+                            <strong class="text-slate-200">Focus :</strong> Parsing efficace et algorithmes de traversée de graphes.
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <ul class="flex flex-wrap gap-3 text-xs font-mono text-slate-500">
+                                <li>Java</li>
+                                <li>JSON Parsing</li>
+                                <li>Algorithmique</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 4 -->
+                <div class="glass-card rounded-xl overflow-hidden group animate-fade-in-up delay-300">
+                    <div class="p-8 h-full flex flex-col relative">
+                        <div class="absolute top-8 right-8 text-accent-cyan">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2 group-hover:text-accent-blue transition-colors">Jeu Interactif</h3>
+                        <p class="text-accent-cyan font-mono text-xs mb-6">JAVAFX / UI Design</p>
+                        
+                        <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                            Développement d'un jeu du Pendu avec interface graphique moderne et réactive.
+                            <br><br>
+                            <strong class="text-slate-200">Focus :</strong> Expérience utilisateur (UX), gestion d'événements et animations.
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <ul class="flex flex-wrap gap-3 text-xs font-mono text-slate-500">
+                                <li>JavaFX</li>
+                                <li>Event Handling</li>
+                                <li>CSS</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PAGE COMPÉTENCES -->
+        <section id="skills" class="page">
+            <h2 class="flex items-center text-2xl md:text-3xl font-bold text-slate-100 mb-12 animate-fade-in-up">
+                <span class="text-accent-blue font-mono text-xl mr-4">03.</span>
+                Technologies & Outils
+                <span class="h-[1px] bg-navy-700 w-1/3 ml-6 hidden md:block"></span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Bloc Dev -->
+                <div class="glass-card p-6 rounded-lg animate-fade-in-up delay-100 hover:bg-navy-800 transition-colors">
+                    <h3 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
+                        <span class="text-accent-cyan">▹</span> Développement
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between">
+                                <span class="text-xs font-mono font-semibold inline-block text-accent-blue">PYTHON (IA/Data)</span>
+                            </div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-navy-900">
+                                <div style="width:90%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                            </div>
+                        </div>
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between">
+                                <span class="text-xs font-mono font-semibold inline-block text-accent-blue">JAVA (POO)</span>
+                            </div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-navy-900">
+                                <div style="width:85%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                            </div>
+                        </div>
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between">
+                                <span class="text-xs font-mono font-semibold inline-block text-accent-blue">SQL / BDD</span>
+                            </div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-navy-900">
+                                <div style="width:80%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloc System -->
+                <div class="glass-card p-6 rounded-lg animate-fade-in-up delay-200 hover:bg-navy-800 transition-colors">
+                    <h3 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
+                        <span class="text-accent-cyan">▹</span> Systèmes & Réseaux
+                    </h3>
+                    <ul class="grid grid-cols-2 gap-4 text-sm font-mono text-slate-400">
+                        <li class="flex items-center gap-2"><span class="text-accent-blue">▹</span> GNS3</li>
+                        <li class="flex items-center gap-2"><span class="text-accent-blue">▹</span> Linux/Bash</li>
+                        <li class="flex items-center gap-2"><span class="text-accent-blue">▹</span> Docker</li>
+                        <li class="flex items-center gap-2"><span class="text-accent-blue">▹</span> TCP/IP</li>
+                        <li class="flex items-center gap-2"><span class="text-accent-blue">▹</span> Micro-Archi (MIC-1)</li>
+                        <li class="flex items-center gap-2"><span class="text-accent-blue">▹</span> Packet Tracer</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-12 glass-card p-8 rounded-lg animate-fade-in-up delay-300">
+                <h3 class="font-mono text-accent-cyan mb-4">Parcours Académique</h3>
+                <div class="border-l-2 border-navy-700 ml-2 pl-8 space-y-8">
+                    <div class="relative">
+                        <span class="absolute -left-[39px] top-1 w-4 h-4 rounded-full bg-accent-blue ring-4 ring-navy-900"></span>
+                        <h4 class="text-lg font-bold text-slate-200">BUT Informatique</h4>
+                        <p class="text-sm text-slate-400 mb-1">IUT d'Orléans | 2024 - Présent</p>
+                        <p class="text-sm text-slate-500">Focus: Algorithmique avancée, Structures de données, Architecture Web.</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[39px] top-1 w-4 h-4 rounded-full bg-slate-600 ring-4 ring-navy-900"></span>
+                        <h4 class="text-lg font-bold text-slate-200">Baccalauréat STI2D</h4>
+                        <p class="text-sm text-slate-400 mb-1">Lycée Benjamin Franklin | 2024</p>
+                        <p class="text-sm text-slate-500">Mention Assez Bien. Spécialité Systèmes d'Information et Numérique.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE CONTACT -->
+        <section id="contact" class="page">
+            <div class="max-w-2xl mx-auto text-center py-20 animate-fade-in-up">
+                <p class="text-accent-cyan font-mono mb-4">04. Et maintenant ?</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Restons en contact</h2>
+                <p class="text-slate-400 text-lg mb-12 leading-relaxed">
+                    Je suis activement à la recherche d'une opportunité d'alternance pour septembre 2026. 
+                    Que ce soit pour une opportunité ou juste pour dire bonjour, ma boîte de réception est toujours ouverte !
+                </p>
+                
+                <a href="mailto:zakaria.makhlouf45000@gmail.com" class="inline-block border border-accent-cyan text-accent-cyan px-10 py-5 rounded font-mono text-sm hover:bg-accent-cyan/10 transition-all duration-300">
+                    M'envoyer un email
+                </a>
+
+                <div class="mt-20 pt-10 border-t border-navy-700 flex justify-center gap-8">
+                    <a href="https://github.com/ZakariaMakhlouf45000" target="_blank" class="text-slate-400 hover:text-accent-blue transition-colors hover:-translate-y-1 transform duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <!-- Add more social icons here if needed -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-6 text-center text-slate-500 text-xs font-mono">
+        <p class="hover:text-accent-cyan transition-colors cursor-default">
+            Conçu & Développé par Zakaria Makhlouf <br>
+            <span class="mt-2 inline-block">2025 - Portfolio V2</span>
+        </p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Logic to smoothly switch pages
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Fade out current
+            pages.forEach(page => {
+                if(page.classList.contains('active')) {
+                    page.style.opacity = '0';
+                    setTimeout(() => {
+                        page.classList.remove('active');
+                    }, 400); // Wait for transition
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                link.classList.remove('text-accent-cyan');
+            });
+
+            // Fade in new
+            setTimeout(() => {
+                const target = document.getElementById(pageId);
+                target.classList.add('active');
+                // Trigger reflow
+                void target.offsetWidth; 
+                target.style.opacity = '1';
+                
+                // Re-trigger animations for elements inside
+                const animatedElements = target.querySelectorAll('.animate-fade-in-up');
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; /* trigger reflow */
+                    el.style.animation = null; 
+                });
+                
+            }, 400);
+
+            const activeLink = document.getElementById('nav-' + pageId);
+            if(activeLink) {
+                activeLink.classList.add('active');
+                activeLink.classList.add('text-accent-cyan');
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // --- TYPEWRITER EFFECT ---
+        
+        // Define sequence
+        const typeSequence = [
+            { elementId: 'tw-1', text: 'Bonjour, je suis' },
+            { elementId: 'tw-2', text: 'Zakaria Makhlouf.' },
+            { elementId: 'tw-3-part1', text: 'Je construis des solutions ' },
+            { elementId: 'tw-3-part2', text: 'logicielles & web.' }
+        ];
+
+        const typeSpeed = 50; // ms per char
+
+        function typeText(elementId, text) {
+            return new Promise(resolve => {
+                const element = document.getElementById(elementId);
+                if(!element) { resolve(); return; }
+                
+                element.classList.add('typing-cursor'); // Show cursor
+                
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, typeSpeed + (Math.random() * 20)); // slight randomness
+                    } else {
+                        element.classList.remove('typing-cursor'); // Stop cursor
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        async function startTypewriter() {
+            // Wait a bit before starting
+            await new Promise(r => setTimeout(r, 500));
+            
+            for (const item of typeSequence) {
+                await typeText(item.elementId, item.text);
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            const home = document.getElementById('home');
+            home.classList.add('active');
+            setTimeout(() => { home.style.opacity = '1'; }, 50);
+            document.getElementById('nav-home').classList.add('active');
+            document.getElementById('nav-home').classList.add('text-accent-cyan');
+
+            // Start Animation
+            startTypewriter();
+        });
+    </script>
+</body>
+</html>
