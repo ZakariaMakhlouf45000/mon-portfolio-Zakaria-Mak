@@ -30,10 +30,18 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
+      - name: Prepare deployment files
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp README.md _site/ 2>/dev/null || true
+          cp .nojekyll _site/ 2>/dev/null || true
+          echo "Deployment prepared at $(date)"
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
       
       - name: Deploy to GitHub Pages
         id: deployment
