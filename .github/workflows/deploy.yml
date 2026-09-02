@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - copilot/rearrange-project-layout
   workflow_dispatch:
 
 permissions:
