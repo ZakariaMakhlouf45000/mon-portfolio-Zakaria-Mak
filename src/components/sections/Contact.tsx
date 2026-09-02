@@ -14,7 +14,7 @@ export default function Contact() {
                             Construisons une expérience web qui marque.
                         </h2>
                         <p className="text-lg md:text-xl mb-10" style={{ color: "var(--text-primary)" }}>
-                            Disponible pour une alternance dès septembre 2026. Parlons produit, design d'interface et ingénierie front-end.
+                            Disponible pour une alternance dès septembre 2026. Parlons produit, design d&apos;interface et ingénierie front-end.
                         </p>
 
                         <div className="flex flex-wrap justify-center gap-4">
