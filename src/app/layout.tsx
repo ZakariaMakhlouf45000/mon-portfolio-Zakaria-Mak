@@ -61,19 +61,6 @@ export default function RootLayout({
                 />
             </head>
             <body className="font-sans antialiased relative">
-                {/* Background ambient blobs */}
-                <div className="fixed inset-0 z-[-2] overflow-hidden pointer-events-none opacity-40">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-blue/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob" />
-                    <div
-                        className="absolute top-0 right-1/4 w-96 h-96 bg-accent-purple/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob"
-                        style={{ animationDelay: "2s" }}
-                    />
-                    <div
-                        className="absolute -bottom-32 left-1/3 w-96 h-96 bg-accent-teal/5 rounded-full mix-blend-screen filter blur-[100px] animate-blob"
-                        style={{ animationDelay: "4s" }}
-                    />
-                </div>
-
                 {children}
             </body>
         </html>
