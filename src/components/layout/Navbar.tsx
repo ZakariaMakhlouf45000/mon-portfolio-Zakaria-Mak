@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
+const basePath = process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "";
+
 const navItems = [
     { label: "À propos", href: "#about", num: "01" },
     { label: "Projets", href: "#projects", num: "02" },
@@ -93,7 +95,7 @@ export default function Navbar() {
                     </ul>
 
                     <a
-                        href="/resume.pdf"
+                        href={`${basePath}/resume.pdf`}
                         className="px-5 py-2 border rounded font-mono text-sm transition-all duration-300 transform hover:-translate-y-1"
                         style={{
                             borderColor: "var(--accent)",
@@ -155,7 +157,7 @@ export default function Navbar() {
                     ))}
                     <li className="mt-4">
                         <a
-                            href="/resume.pdf"
+                            href={`${basePath}/resume.pdf`}
                             className="px-8 py-4 border rounded transition-colors"
                             style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
                         >

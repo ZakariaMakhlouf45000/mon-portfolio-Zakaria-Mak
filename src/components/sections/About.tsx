@@ -5,6 +5,7 @@ import Reveal from "@/components/ui/Reveal";
 
 const typewriterText =
     "Bonjour ! Je suis Zakaria, un passionné d'informatique basé à Orléans. Mon intérêt pour le développement a commencé lorsque j'ai voulu comprendre comment fonctionnaient mes jeux vidéo préférés, ce qui m'a conduit à écrire mes premières lignes de code.";
+const basePath = process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "";
 
 function Typewriter() {
     const [displayText, setDisplayText] = useState("");
@@ -191,7 +192,7 @@ export default function About() {
                             style={{ background: "var(--bg-tertiary)" }}
                         >
                             <img
-                                src="/zak-photo.png"
+                                src={`${basePath}/zak-photo.png`}
                                 alt="Photo de Zakaria Makhlouf"
                                 className="w-full h-full object-cover"
                             />
