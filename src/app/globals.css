@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   DESIGN SYSTEM — Custom Properties
+   ======================================== */
+
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #0a192f;
+  --bg-secondary: #112240;
+  --bg-tertiary: #233554;
+  --text-primary: #ccd6f6;
+  --text-secondary: #8892b0;
+  --text-heading: #e6f1ff;
+  --accent: #64ffda;
+  --accent-blue: #3b82f6;
+  --accent-purple: #bd34fe;
+  --glass-bg: rgba(10, 25, 47, 0.85);
+  --glass-card: rgba(17, 34, 64, 0.6);
+  --glass-card-hover: rgba(23, 42, 69, 0.8);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-accent: rgba(100, 255, 218, 0.1);
+  --scrollbar-track: #0a192f;
+  --scrollbar-thumb: #233554;
+  --spotlight-color: rgba(29, 78, 216, 0.15);
+}
+
+.light {
+  --bg-primary: #f8f9fc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e8ecf4;
+  --text-primary: #334155;
+  --text-secondary: #64748b;
+  --text-heading: #0f172a;
+  --accent: #0d9488;
+  --accent-blue: #2563eb;
+  --accent-purple: #9333ea;
+  --glass-bg: rgba(248, 249, 252, 0.9);
+  --glass-card: rgba(255, 255, 255, 0.7);
+  --glass-card-hover: rgba(255, 255, 255, 0.9);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-accent: rgba(13, 148, 136, 0.15);
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --spotlight-color: rgba(59, 130, 246, 0.08);
+}
+
+/* ========================================
+   BASE
+   ======================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  overflow-x: hidden;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::selection {
+  background: rgba(100, 255, 218, 0.2);
+  color: var(--text-heading);
+}
+
+.light ::selection {
+  background: rgba(13, 148, 136, 0.2);
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 5px;
+  border: 2px solid var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+/* ========================================
+   GLASS MORPHISM UTILITIES
+   ======================================== */
+
+.glass-nav {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card {
+  background: var(--glass-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-7px);
+  background: var(--glass-card-hover);
+  border-color: var(--border-accent);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+}
+
+.light .glass-card:hover {
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   SPOTLIGHT CURSOR
+   ======================================== */
+
+#spotlight {
+  background: radial-gradient(
+    600px circle at var(--x, 50%) var(--y, 50%),
+    var(--spotlight-color),
+    transparent 80%
+  );
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s;
+}
+
+/* ========================================
+   NAV LINK UNDERLINE ANIMATION
+   ======================================== */
+
+.nav-link {
+  position: relative;
+  transition: color 0.3s;
+}
+
+.nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--accent);
+}
+
+/* ========================================
+   TYPEWRITER CURSOR
+   ======================================== */
+
+.typing-cursor::after {
+  content: "▋";
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  color: var(--accent);
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ========================================
+   SECTION SPACING
+   ======================================== */
+
+section {
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 80px 0;
+  }
+
+  .glass-nav {
+    background-color: var(--bg-primary) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ========================================
+   ANIMATION DELAYS
+   ======================================== */
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+
+/* ========================================
+   THEME TRANSITION
+   ======================================== */
+
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0ms;
+}
+
+body.theme-transitioning,
+body.theme-transitioning * {
+  transition-duration: 500ms !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ========================================
+   HIGHLIGHT TEXT
+   ======================================== */
+
+.highlight {
+  color: var(--accent);
+  font-weight: 600;
+}
