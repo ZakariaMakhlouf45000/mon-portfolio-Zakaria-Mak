@@ -50,7 +50,7 @@ export default function Footer() {
 
                 {/* LinkedIn */}
                 <a
-                    href="https://linkedin.com/in/zakaria-makhlouf"
+                    href="https://www.linkedin.com/in/zakaria-makhlouf-8a263b309/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:scale-110 transition-all duration-300"

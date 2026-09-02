@@ -54,7 +54,7 @@ export default function Contact() {
                     </a>
 
                     <a
-                        href="https://linkedin.com/in/zakaria-makhlouf"
+                        href="https://www.linkedin.com/in/zakaria-makhlouf-8a263b309/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="glass-card px-8 py-4 rounded font-mono flex items-center gap-2 transition-all"
