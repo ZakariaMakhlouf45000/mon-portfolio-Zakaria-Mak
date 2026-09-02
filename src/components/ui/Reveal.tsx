@@ -23,12 +23,17 @@ export default function Reveal({
         const element = ref.current;
         if (!element) return;
 
+        let revealFrame = 0;
+        let revealTimeout: ReturnType<typeof setTimeout> | undefined;
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        element.style.opacity = "1";
-                        element.style.transform = "translate(0, 0)";
+                    revealTimeout = setTimeout(() => {
+                        revealFrame = requestAnimationFrame(() => {
+                            element.style.opacity = "1";
+                            element.style.transform = "translate3d(0, 0, 0)";
+                        });
                     }, delay);
                     observer.unobserve(element);
                 }
@@ -38,19 +43,23 @@ export default function Reveal({
 
         observer.observe(element);
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+            if (revealTimeout) clearTimeout(revealTimeout);
+            cancelAnimationFrame(revealFrame);
+        };
     }, [delay, threshold]);
 
     const getInitialTransform = () => {
         switch (direction) {
             case "up":
-                return "translateY(30px)";
+                return "translate3d(0, 30px, 0)";
             case "left":
-                return "translateX(-30px)";
+                return "translate3d(-30px, 0, 0)";
             case "right":
-                return "translateX(30px)";
+                return "translate3d(30px, 0, 0)";
             default:
-                return "translateY(30px)";
+                return "translate3d(0, 30px, 0)";
         }
     };
 
@@ -61,7 +70,7 @@ export default function Reveal({
             style={{
                 opacity: 0,
                 transform: getInitialTransform(),
-                transition: `opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)`,
+                transition: `opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), transform 520ms cubic-bezier(0.22, 1, 0.36, 1)`,
             }}
         >
             {children}
