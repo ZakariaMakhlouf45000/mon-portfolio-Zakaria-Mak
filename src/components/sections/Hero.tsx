@@ -237,9 +237,9 @@ export default function Hero() {
                                 </div>
 
                                 {/* Window Body */}
-                                <div className="bg-[#0d1117] p-8 font-mono text-[15px] xl:text-[16px] leading-[1.8] relative overflow-hidden h-[380px] border border-white/5 border-t-0 rounded-b-xl" style={{ transform: "translateZ(20px)" }}>
+                                <div className="bg-[#0d1117] p-5 lg:p-8 font-mono text-[12px] lg:text-[14px] xl:text-[15px] leading-[1.8] relative overflow-hidden h-[380px] border border-white/5 border-t-0 rounded-b-xl" style={{ transform: "translateZ(20px)" }}>
                                     <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px] opacity-30 pointer-events-none" style={{ transform: "translateZ(-10px)" }} />
-                                    <div className="relative z-10 whitespace-pre drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)] font-bold">
+                                    <div className="relative z-10 whitespace-pre-wrap drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)] font-bold">
                                         {renderTypedCode()}
                                         {charIndex < fullText.length && (
                                             <span className="inline-block w-3 h-[1.1em] bg-white animate-pulse ml-0.5 align-middle shadow-[0_0_10px_#fff]" />
@@ -251,16 +251,26 @@ export default function Hero() {
                     </div>
                 </div>
 
-                {/* BULLE FLOTTANTE ORGANIQUE - AVAILABLE FOR WORK */}
-                <div className="absolute bottom-[15%] right-[5%] z-[60] pointer-events-auto hidden md:block" style={{ animation: "floatXRight 14s ease-in-out infinite alternate" }}>
-                    <div style={{ animation: "floatY 11s ease-in-out infinite alternate" }}>
+                {/* BULLE FLOTTANTE ORGANIQUE - BOUTON CONTACT */}
+                <div className="absolute bottom-[2%] lg:bottom-[5%] right-[2%] md:right-[5%] z-[60] pointer-events-auto hidden md:block" style={{ animation: "floatXRight 24s ease-in-out infinite alternate" }}>
+                    <style>{`
+                        @keyframes gentleFloatY {
+                            0% { transform: translateY(0); }
+                            100% { transform: translateY(-8px); }
+                        }
+                        @keyframes softPing {
+                            0% { transform: scale(1); opacity: 0.8; }
+                            100% { transform: scale(1.4); opacity: 0; }
+                        }
+                    `}</style>
+                    <div style={{ animation: "gentleFloatY 8s ease-in-out infinite alternate" }}>
                         <a href="#contact" className="flex items-center gap-3 px-5 py-3 rounded-full box-3d-relief backdrop-blur-xl group hover:scale-110 transition-transform shadow-[0_10px_30px_rgba(0,0,0,0.3)]" style={{ backgroundColor: "var(--bg-tertiary)", border: "1px solid var(--border-accent)" }}>
                             <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: "var(--accent)" }}></span>
+                                <span className="absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: "var(--accent)", animation: "softPing 2.5s cubic-bezier(0,0,0.2,1) infinite" }}></span>
                                 <span className="relative inline-flex rounded-full h-3 w-3" style={{ backgroundColor: "var(--accent)" }}></span>
                             </span>
-                            <span className="font-mono text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--text-heading)", textShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
-                                Available for work
+                            <span className="font-mono text-[11px] font-bold tracking-widest uppercase appearance-none drop-shadow-sm" style={{ color: "var(--text-heading)" }}>
+                                Disponible
                             </span>
                         </a>
                     </div>

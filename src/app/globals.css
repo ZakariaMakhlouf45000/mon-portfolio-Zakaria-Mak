@@ -20,12 +20,13 @@
 }
 
 .light {
-  --bg-primary: #f1f5f9;
-  --bg-secondary: #e2e8f0;
-  --bg-tertiary: #cbd5e1;
+  --bg-primary: #e8ecef;
+  /* Blanc métallisé / cassé */
+  --bg-secondary: #d1d9e0;
+  --bg-tertiary: #b8c4d1;
 
   --text-primary: #475569;
-  --text-secondary: #64748b;
+  --text-secondary: #5e6b7d;
   --text-heading: #1e293b;
 
   --accent: #0f766e;
@@ -49,6 +50,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light body {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(15, 118, 110, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 118, 110, 0.035) 1px, transparent 1px);
 }
 
 h1,
@@ -107,7 +115,7 @@ span {
    ======================================== */
 
 .glass-nav {
-  background: rgba(2, 12, 27, 0.7);
+  background: color-mix(in srgb, var(--bg-primary) 80%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
@@ -116,7 +124,7 @@ span {
 }
 
 .glass-card {
-  background: rgba(17, 34, 64, 0.4);
+  background: color-mix(in srgb, var(--bg-tertiary) 40%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-subtle);
@@ -124,7 +132,7 @@ span {
 }
 
 .glass-card:hover {
-  background: rgba(17, 34, 64, 0.7);
+  background: color-mix(in srgb, var(--bg-tertiary) 70%, transparent);
   border-color: var(--border-accent);
 }
 
@@ -176,6 +184,35 @@ span {
   100% {
     transform: translateY(-20vh) scale(1.05);
   }
+}
+
+/* ========================================
+   LIQUID WOBBLE EFFECT (Replaces Earthquake)
+   ======================================== */
+@keyframes liquid-wobble {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: scale(0.985) translate3d(0, 5px, -30px) rotateX(1.5deg) rotateY(-1deg);
+  }
+
+  50% {
+    transform: scale(1.005) translate3d(0, -2px, 10px) rotateX(-0.5deg) rotateY(0.5deg);
+  }
+
+  75% {
+    transform: scale(0.995) translate3d(0, 1px, -5px) rotateX(0.2deg) rotateY(-0.2deg);
+  }
+
+  100% {
+    transform: scale(1) translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+.animate-liquid-wobble {
+  animation: liquid-wobble 1.8s cubic-bezier(0.25, 1, 0.5, 1) 1 forwards;
 }
 
 /* ========================================
@@ -246,4 +283,14 @@ span {
     -6px 6px 0px var(--border-subtle),
     -9px 9px 0px var(--border-subtle),
     -12px 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Light mode override for buttons: just soft shadows, no dark stepped 3D borders */
+.light .box-3d-relief {
+  box-shadow: 0 6px 15px rgba(15, 23, 42, 0.08);
+}
+
+.light .box-3d-relief:hover {
+  transform: translate(0px, -2px) translateZ(30px) !important;
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12);
 }
