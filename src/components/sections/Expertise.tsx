@@ -1,6 +1,8 @@
 "use client";
 
 import Reveal from "@/components/ui/Reveal";
+import TiltCard from "@/components/ui/TiltCard";
+import React from "react";
 
 const skills = [
     {
@@ -8,9 +10,7 @@ const skills = [
         sub: "Backend & Desktop",
         color: "#3b82f6",
         icon: (
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
+            <img src="https://cdn.simpleicons.org/openjdk/3b82f6" alt="Java Logo" className="w-10 h-10 drop-shadow-md" />
         ),
     },
     {
@@ -18,9 +18,7 @@ const skills = [
         sub: "Data & IA",
         color: "#eab308",
         icon: (
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+            <img src="https://cdn.simpleicons.org/python/eab308" alt="Python Logo" className="w-10 h-10 drop-shadow-md" />
         ),
     },
     {
@@ -28,9 +26,7 @@ const skills = [
         sub: "MySQL / PostgreSQL",
         color: "#f97316",
         icon: (
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-            </svg>
+            <img src="https://cdn.simpleicons.org/postgresql/f97316" alt="PostgreSQL Logo" className="w-10 h-10 drop-shadow-md" />
         ),
     },
     {
@@ -38,9 +34,7 @@ const skills = [
         sub: "Cisco / TCP/IP",
         color: "var(--accent)",
         icon: (
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
+            <img src="https://cdn.simpleicons.org/cisco/00bceb" alt="Cisco Logo" className="w-10 h-10 drop-shadow-md" style={{ filter: 'brightness(1.5)' }} />
         ),
     },
     {
@@ -48,9 +42,7 @@ const skills = [
         sub: "Tailwind / React",
         color: "#60a5fa",
         icon: (
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
+            <img src="https://cdn.simpleicons.org/react/60a5fa" alt="React Logo" className="w-10 h-10 drop-shadow-md" />
         ),
     },
     {
@@ -58,16 +50,14 @@ const skills = [
         sub: "Bash / Admin",
         color: "var(--text-primary)",
         icon: (
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
+            <img src="https://cdn.simpleicons.org/linux/ffffff" alt="Linux Logo" className="w-10 h-10 drop-shadow-[0_4px_10px_rgba(255,255,255,0.2)] invert dark:invert-0" />
         ),
     },
 ];
 
 export default function Expertise() {
     return (
-        <section id="skills" className="py-20">
+        <section id="skills" className="py-20 relative z-10 w-full overflow-hidden">
             <Reveal>
                 <h2
                     className="flex items-center text-2xl md:text-3xl font-bold mb-10"
@@ -87,39 +77,30 @@ export default function Expertise() {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {skills.map((skill, i) => (
                     <Reveal key={skill.name} delay={i * 80}>
-                        <div
-                            className="p-5 rounded-xl cursor-default transition-all duration-300 hover:-translate-y-2 border group"
-                            style={{
-                                background: "var(--bg-secondary)",
-                                borderColor: "transparent",
-                            }}
-                            onMouseEnter={(e) => {
-                                const el = e.currentTarget;
-                                el.style.borderColor = "var(--border-accent)";
-                                el.style.background = "var(--bg-tertiary)";
-                            }}
-                            onMouseLeave={(e) => {
-                                const el = e.currentTarget;
-                                el.style.borderColor = "transparent";
-                                el.style.background = "var(--bg-secondary)";
-                            }}
+                        <TiltCard
+                            rotateLimit={6}
+                            translateZ={12}
+                            className="p-5 group h-full bg-slate-950/20 backdrop-blur-md transition-colors duration-300 md:hover:bg-slate-900/50 md:hover:border-teal-500/20 flex flex-col items-center text-center !rounded-[30px]"
                         >
                             <div
-                                className="mb-3 group-hover:scale-110 transition-transform origin-left"
-                                style={{ color: skill.color }}
+                                className="mb-4 transition-transform duration-300 origin-center group-hover:scale-125"
+                                style={{ transform: "translateZ(20px)" }}
                             >
                                 {skill.icon}
                             </div>
-                            <h3 className="font-bold mb-1" style={{ color: "var(--text-heading)" }}>
+                            <h3 className="font-bold mb-1 text-sm md:text-base mt-2" style={{ color: "var(--text-heading)", transform: "translateZ(12px)" }}>
                                 {skill.name}
                             </h3>
-                            <p className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
+                            <p className="text-xs font-mono opacity-80" style={{ color: "var(--text-secondary)", transform: "translateZ(6px)" }}>
                                 {skill.sub}
                             </p>
-                        </div>
+                        </TiltCard>
                     </Reveal>
                 ))}
             </div>
+
+            {/* Parallax ambient background element */}
+            <div className="absolute right-0 bottom-0 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
         </section>
     );
 }

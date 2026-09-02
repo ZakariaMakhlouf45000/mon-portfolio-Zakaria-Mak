@@ -183,22 +183,25 @@ export default function About() {
                 {/* Photo */}
                 <Reveal delay={500} className="mx-auto md:mx-0">
                     <div className="relative group w-[260px] max-w-full">
+                        {/* Cadre décoratif stabilisé (sans événements pointeur pour éviter les sautillements) */}
                         <div
-                            className="absolute inset-0 border-2 rounded translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"
+                            className="absolute inset-0 border-2 rounded translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500 ease-out pointer-events-none"
                             style={{ borderColor: "var(--accent)" }}
                         />
+                        {/* Conteneur principal de l'image */}
                         <div
-                            className="relative rounded overflow-hidden aspect-[3/4] flex items-center justify-center shadow-lg group-hover:filter-none transition-all duration-300"
+                            className="relative rounded overflow-hidden aspect-[3/4] flex items-center justify-center shadow-lg transition-transform duration-500 ease-out group-hover:-translate-y-1"
                             style={{ background: "var(--bg-tertiary)" }}
                         >
                             <img
                                 src={`${basePath}/zak-photo.png`}
                                 alt="Photo de Zakaria Makhlouf"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                             />
+                            {/* Voile d'accentuation subtil */}
                             <div
-                                className="absolute inset-0 group-hover:bg-transparent transition-colors duration-300"
-                                style={{ background: "rgba(100, 255, 218, 0.15)" }}
+                                className="absolute inset-0 transition-opacity duration-500 ease-out opacity-20 group-hover:opacity-0"
+                                style={{ background: "var(--accent)", mixBlendMode: "multiply" }}
                             />
                         </div>
                     </div>

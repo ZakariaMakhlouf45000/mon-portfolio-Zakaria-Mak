@@ -8,6 +8,7 @@ interface RevealProps {
     delay?: number;
     className?: string;
     threshold?: number;
+    style?: React.CSSProperties;
 }
 
 export default function Reveal({
@@ -16,6 +17,7 @@ export default function Reveal({
     delay = 0,
     className = "",
     threshold = 0.15,
+    style,
 }: RevealProps) {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -33,6 +35,7 @@ export default function Reveal({
                         revealFrame = requestAnimationFrame(() => {
                             element.style.opacity = "1";
                             element.style.transform = "translate3d(0, 0, 0)";
+                            element.style.filter = "blur(0px)";
                         });
                     }, delay);
                     observer.unobserve(element);
@@ -53,13 +56,13 @@ export default function Reveal({
     const getInitialTransform = () => {
         switch (direction) {
             case "up":
-                return "translate3d(0, 30px, 0)";
+                return "translate3d(0, 40px, 0)";
             case "left":
-                return "translate3d(-30px, 0, 0)";
+                return "translate3d(-40px, 0, 0)";
             case "right":
-                return "translate3d(30px, 0, 0)";
+                return "translate3d(40px, 0, 0)";
             default:
-                return "translate3d(0, 30px, 0)";
+                return "translate3d(0, 40px, 0)";
         }
     };
 
@@ -69,8 +72,11 @@ export default function Reveal({
             className={className}
             style={{
                 opacity: 0,
+                filter: "blur(8px)",
                 transform: getInitialTransform(),
-                transition: `opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), transform 520ms cubic-bezier(0.22, 1, 0.36, 1)`,
+                transition: `all 800ms cubic-bezier(0.22, 1, 0.36, 1)`,
+                willChange: "transform, opacity, filter",
+                ...style,
             }}
         >
             {children}
