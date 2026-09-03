@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
+const isGitHubPages = process.env.DEPLOY_TARGET === "gh-pages";
+
 const nextConfig: NextConfig = {
-    output: "export",
-    basePath: process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "",
+    // basePath actif uniquement si tu déploies sur GitHub Pages
+    basePath: isGitHubPages ? "/mon-portfolio-Zakaria-Mak" : "",
     images: {
         unoptimized: true,
     },
