@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
-const basePath = process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "";
+const basePath = "";
 
 const navItems = [
     { label: "À propos", href: "#about", num: "01" },

@@ -7,7 +7,7 @@ import DreamBubble from "@/components/ui/DreamBubble";
 
 const typewriterText =
     "Bonjour ! Je suis Zakaria, un passionné d'informatique basé à Orléans. Mon intérêt pour le développement a commencé lorsque j'ai voulu comprendre comment fonctionnaient mes jeux vidéo préférés, ce qui m'a conduit à écrire mes premières lignes de code.";
-const basePath = process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "";
+const basePath = "";
 
 function Typewriter() {
     const [displayText, setDisplayText] = useState("");

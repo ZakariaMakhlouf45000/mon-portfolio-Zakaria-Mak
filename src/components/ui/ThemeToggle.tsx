@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const basePath = process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "";
+const basePath = "";
 
 export default function ThemeToggle() {
     const [isLight, setIsLight] = useState(false);
