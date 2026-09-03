@@ -14,6 +14,10 @@ export default function Scroll3DWrapper({ children }: { children: React.ReactNod
             const inner = innerRef.current;
             if (!inner) return;
 
+            // Skip 3D transforms on mobile to prevent layout issues
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) return;
+
             const scrollHeight = document.body.scrollHeight - window.innerHeight;
             if (scrollHeight <= 0) return;
 

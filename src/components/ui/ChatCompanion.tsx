@@ -90,19 +90,7 @@ export default function ChatCompanion() {
     const [isBubbleTalking, setIsBubbleTalking] = useState(false);
     const hasAutoOpened = useRef(false);
 
-    useEffect(() => {
-        // Auto-activate on mobile/tablet after a delay (e.g., 4 seconds)
-        const checkMobileAutoOpen = () => {
-            const isTouchOrMobile = window.matchMedia("(hover: none)").matches || window.innerWidth < 768;
-            if (isTouchOrMobile && !hasAutoOpened.current) {
-                hasAutoOpened.current = true;
-                setIsOpen(true);
-            }
-        };
-
-        const timer = setTimeout(checkMobileAutoOpen, 4000);
-        return () => clearTimeout(timer);
-    }, []);
+    // Auto-open on mobile removed — it was blocking the UI on small screens
 
     useEffect(() => {
         if (isOpen) {
@@ -161,9 +149,9 @@ export default function ChatCompanion() {
 
             {/* Chat Window */}
             <div
-                className={`pointer-events-auto origin-bottom-right transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] mb-4 flex flex-col w-[90vw] sm:w-[350px] bg-slate-900/80 backdrop-blur-2xl border border-teal-500/30 shadow-[0_0_40px_rgba(20,184,166,0.15)] rounded-2xl overflow-hidden ${isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-50 opacity-0 translate-y-12 pointer-events-none"
+                className={`pointer-events-auto origin-bottom-right transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] mb-4 flex flex-col w-[88vw] sm:w-[350px] bg-slate-900/80 backdrop-blur-2xl border border-teal-500/30 shadow-[0_0_40px_rgba(20,184,166,0.15)] rounded-2xl overflow-hidden ${isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-50 opacity-0 translate-y-12 pointer-events-none"
                     }`}
-                style={{ height: "450px", maxHeight: "70vh" }}
+                style={{ height: "450px", maxHeight: "60vh" }}
             >
                 {/* Header */}
                 <div className="bg-gradient-to-r from-slate-900 via-teal-900/40 to-slate-900 p-4 border-b border-teal-500/20 flex items-center justify-between shrink-0">
@@ -236,7 +224,7 @@ export default function ChatCompanion() {
             {/* Floating Trigger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="pointer-events-auto relative group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-slate-900 border border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:scale-110 hover:shadow-[0_0_30px_rgba(20,184,166,0.5)] transition-all duration-300 ease-out z-50 animate-[bot-float_4s_ease-in-out_infinite]"
+                className="pointer-events-auto relative group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-slate-900 border border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:scale-110 hover:shadow-[0_0_30px_rgba(20,184,166,0.5)] transition-all duration-300 ease-out z-50 animate-[bot-float_4s_ease-in-out_infinite]"
                 style={{ animationPlayState: isOpen ? "paused" : "running" }}
                 aria-label="Ouvrir l'assistant"
             >

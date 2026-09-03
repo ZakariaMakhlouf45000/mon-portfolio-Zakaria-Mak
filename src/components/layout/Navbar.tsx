@@ -197,7 +197,7 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             <div
-                className={`md:hidden fixed inset-0 z-50 flex flex-col items-center justify-center transition-all duration-500 origin-top ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+                className={`md:hidden fixed inset-0 z-[90] flex flex-col items-center justify-center transition-all duration-500 origin-top ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
                 style={{ backgroundColor: "var(--bg-primary)" }}
             >
                 <div

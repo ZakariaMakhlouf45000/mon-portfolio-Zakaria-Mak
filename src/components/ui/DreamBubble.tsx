@@ -33,7 +33,7 @@ export default function DreamBubble({ show }: { show: boolean }) {
     return (
         <div
             className={`absolute z-30 transition-all duration-500 ease-out 
-                w-[200px] -top-[140px] left-1/2 -translate-x-1/2 
+                w-[180px] -top-[120px] left-1/2 -translate-x-1/2 
                 md:w-[220px] md:-top-[40px] md:-right-[180px] md:left-auto md:translate-x-0
                 ${show ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-4 pointer-events-none"}
             `}

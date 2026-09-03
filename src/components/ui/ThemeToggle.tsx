@@ -29,7 +29,7 @@ export default function ThemeToggle() {
     };
 
     return (
-        <div className="fixed top-4 left-4 md:top-8 md:left-auto md:right-8 md:translate-x-0 z-[40]">
+        <div className="fixed bottom-4 left-4 md:top-8 md:bottom-auto md:left-auto md:right-8 md:translate-x-0 z-[40]">
             <style>{`
                 @keyframes orbit-float {
                     0%, 100% { transform: translateY(0); }
@@ -39,7 +39,7 @@ export default function ThemeToggle() {
 
             <button
                 onClick={toggleTheme}
-                className="relative w-14 h-14 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-[1200ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-110 group cursor-pointer"
+                className="relative w-11 h-11 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-[1200ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-110 group cursor-pointer"
                 style={{
                     animation: "orbit-float 6s ease-in-out infinite",
                     boxShadow: isLight
@@ -61,8 +61,6 @@ export default function ThemeToggle() {
                 </span>
 
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full pointer-events-none">
-                    {/* Background base to ensure space stays dark */}
-                    <div className="absolute inset-0 bg-black/80" />
 
                     {/* Images from user */}
                     <img
