@@ -108,19 +108,20 @@ export default function InternshipPopup() {
 
                     <button
                         onClick={closePopup}
-                        className="group relative px-8 py-3 rounded-full font-bold overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(0,0,0,0.2)]"
+                        className="group relative px-8 py-3 rounded-full font-bold overflow-hidden transition-transform md:hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(0,0,0,0.2)] touch-manipulation"
                         style={{ backgroundColor: 'var(--text-primary)', color: 'var(--bg-primary)' }}
                     >
                         <span className="relative z-10">Découvrir mon profil</span>
-                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                        <div className="absolute inset-0 bg-white/20 translate-y-full md:group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                     </button>
 
                     {/* Close Cross */}
                     <button
                         onClick={closePopup}
-                        className="absolute top-3 right-3 p-2 opacity-40 hover:opacity-100 transition-opacity rounded-full hover:bg-black/10"
+                        className="absolute top-3 right-3 p-3 opacity-60 md:opacity-40 md:hover:opacity-100 active:opacity-100 transition-opacity rounded-full md:hover:bg-black/10 touch-manipulation"
+                        aria-label="Fermer"
                     >
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
