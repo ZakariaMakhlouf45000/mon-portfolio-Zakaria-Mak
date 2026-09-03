@@ -19,8 +19,9 @@ export default function ScrollParallaxSection({
         const section = sectionRef.current;
         if (!section) return;
 
-        // Skip heavy 3D on mobile
-        if (window.innerWidth < 768) return;
+        // AGGRESSIVE OPTIMIZATION: Skip completely on mobile (no scroll listeners, no RAF)
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) return;
 
         let ticking = false;
 
@@ -60,6 +61,7 @@ export default function ScrollParallaxSection({
         };
 
         window.addEventListener("scroll", onScroll, { passive: true });
+        // Run once on mount
         requestAnimationFrame(update);
 
         return () => window.removeEventListener("scroll", onScroll);

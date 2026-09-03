@@ -64,6 +64,9 @@ export default function Hero() {
 
         // Unified render loop — NO setState for scroll/mouse
         const renderFrame = () => {
+            // AGGRESSIVE OPTIMIZATION: Do absolutely no work on mobile for this layer
+            if (isMobile) return;
+
             const sy = scrollRef.current;
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
@@ -82,7 +85,7 @@ export default function Hero() {
             }
 
             // Glow follows mouse
-            if (glowRef.current && !isMobile) {
+            if (glowRef.current) {
                 glowRef.current.style.transform = `translate3d(${mx * -40}px, ${my * -40}px, -100px)`;
             }
 
@@ -92,14 +95,12 @@ export default function Hero() {
                 const scrollRotateX = Math.min(sy * 0.02 * depth, 20);
                 const scrollOpacity = Math.max(1 - (sy / Math.max(900 * depth, 500)), 0);
 
-                const mouseX = isMobile ? 0 : mx * (depth * 25);
-                const mouseY = isMobile ? 0 : my * (depth * 25);
-                const rotateY = isMobile ? 0 : mx * rotateLimit;
-                const rotateXMouse = isMobile ? 0 : -my * rotateLimit;
+                const mouseX = mx * (depth * 25);
+                const mouseY = my * (depth * 25);
+                const rotateY = mx * rotateLimit;
+                const rotateXMouse = -my * rotateLimit;
 
-                const transform = isMobile
-                    ? `translate3d(0, ${-tYScroll}px, 0)`
-                    : `perspective(1400px) translate3d(${mouseX}px, ${-tYScroll + mouseY}px, ${tZScroll}px) rotateX(${rotateXMouse + scrollRotateX}deg) rotateY(${rotateY}deg)`;
+                const transform = `perspective(1400px) translate3d(${mouseX}px, ${-tYScroll + mouseY}px, ${tZScroll}px) rotateX(${rotateXMouse + scrollRotateX}deg) rotateY(${rotateY}deg)`;
 
                 els.forEach(el => {
                     el.style.transform = transform;
@@ -114,7 +115,9 @@ export default function Hero() {
             rafRef.current = requestAnimationFrame(renderFrame);
         };
 
-        rafRef.current = requestAnimationFrame(renderFrame);
+        if (!isMobile) {
+            rafRef.current = requestAnimationFrame(renderFrame);
+        }
 
         const onScroll = () => { scrollRef.current = window.scrollY; };
         window.addEventListener("scroll", onScroll, { passive: true });

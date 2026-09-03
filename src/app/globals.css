@@ -59,6 +59,16 @@ body {
     linear-gradient(90deg, rgba(15, 118, 110, 0.035) 1px, transparent 1px);
 }
 
+@media (max-width: 768px) {
+  body {
+    background-image: none !important;
+  }
+
+  .light body {
+    background-image: none !important;
+  }
+}
+
 h1,
 h2,
 h3,

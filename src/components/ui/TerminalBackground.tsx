@@ -30,11 +30,13 @@ export default function TerminalBackground() {
     useEffect(() => {
         setIsMounted(true);
 
-        // Lighter settings on mobile to prevent jank
         const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-        const maxLines = isMobile ? 10 : 30;
-        const intervalMs = isMobile ? 800 : 300;
-        const initialCount = isMobile ? 8 : 20;
+        // Optimization: Completely disable terminal background on mobile to prevent DOM thrashing
+        if (isMobile) return;
+
+        const maxLines = 30;
+        const intervalMs = 300;
+        const initialCount = 20;
 
         const addLine = () => {
             const randomLine = CODE_LINES[Math.floor(Math.random() * CODE_LINES.length)];
