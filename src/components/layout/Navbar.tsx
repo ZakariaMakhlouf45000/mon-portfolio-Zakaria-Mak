@@ -21,24 +21,29 @@ export default function Navbar() {
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
-
-            // Active section detection
-            const sections = document.querySelectorAll("section");
-            let current = "";
-            sections.forEach((section) => {
-                const top = section.offsetTop;
-                if (window.pageYOffset >= top - 300) {
-                    current = section.getAttribute("id") || "";
-                }
-            });
-            setActiveSection(current);
         };
 
         handleScroll();
         window.addEventListener("scroll", handleScroll, { passive: true });
 
+        // Intersection Observer for active sections
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: "-30% 0px -70% 0px" }
+        );
+
+        const sections = document.querySelectorAll("section");
+        sections.forEach((section) => observer.observe(section));
+
         return () => {
             window.removeEventListener("scroll", handleScroll);
+            sections.forEach((section) => observer.unobserve(section));
         };
     }, []);
 

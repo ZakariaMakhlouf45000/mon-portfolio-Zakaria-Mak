@@ -3,6 +3,7 @@
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import React from "react";
+import Image from "next/image";
 
 const RealisticBadge = ({ children, animClass, bgColor }: { children: React.ReactNode, animClass?: string, bgColor?: string }) => (
     <div
@@ -28,7 +29,7 @@ const skills = [
         color: "#3b82f6",
         icon: (
             <RealisticBadge animClass="animate-[skill-float_4s_ease-in-out_infinite]">
-                <img src="https://cdn.simpleicons.org/openjdk/3b82f6" alt="Java Logo" className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
+                <Image src="https://cdn.simpleicons.org/openjdk/3b82f6" alt="Java Logo" width={40} height={40} className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
             </RealisticBadge>
         ),
     },
@@ -38,7 +39,7 @@ const skills = [
         color: "#eab308",
         icon: (
             <RealisticBadge animClass="animate-[skill-slither_5s_ease-in-out_infinite]">
-                <img src="https://cdn.simpleicons.org/python/eab308" alt="Python Logo" className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
+                <Image src="https://cdn.simpleicons.org/python/eab308" alt="Python Logo" width={40} height={40} className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
             </RealisticBadge>
         ),
     },
@@ -48,7 +49,7 @@ const skills = [
         color: "#f97316",
         icon: (
             <RealisticBadge animClass="animate-[skill-db-pulse_3s_ease-in-out_infinite]">
-                <img src="https://cdn.simpleicons.org/postgresql/f97316" alt="PostgreSQL Logo" className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
+                <Image src="https://cdn.simpleicons.org/postgresql/f97316" alt="PostgreSQL Logo" width={40} height={40} className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
             </RealisticBadge>
         ),
     },
@@ -58,7 +59,7 @@ const skills = [
         color: "var(--accent)",
         icon: (
             <RealisticBadge animClass="animate-[skill-ping_3s_infinite]">
-                <img src="https://cdn.simpleicons.org/cisco/00bceb" alt="Cisco Logo" className="w-12 h-12 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" style={{ filter: 'brightness(1.2)' }} />
+                <Image src="https://cdn.simpleicons.org/cisco/00bceb" alt="Cisco Logo" width={48} height={48} className="w-12 h-12 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" style={{ filter: 'brightness(1.2)' }} />
             </RealisticBadge>
         ),
     },
@@ -68,7 +69,7 @@ const skills = [
         color: "#60a5fa",
         icon: (
             <RealisticBadge animClass="animate-[skill-spin_10s_linear_infinite]">
-                <img src="https://cdn.simpleicons.org/react/60a5fa" alt="React Logo" className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
+                <Image src="https://cdn.simpleicons.org/react/60a5fa" alt="React Logo" width={40} height={40} className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]" />
             </RealisticBadge>
         ),
     },
@@ -78,7 +79,7 @@ const skills = [
         color: "var(--text-primary)",
         icon: (
             <RealisticBadge animClass="animate-[skill-waddle_3s_ease-in-out_infinite]" bgColor="rgba(255,255,255,0.05)">
-                <img src="https://cdn.simpleicons.org/linux/ffffff" alt="Linux Logo" className="w-11 h-11 drop-shadow-[0_8px_8px_rgba(0,0,0,0.8)] invert dark:invert-0" />
+                <Image src="https://cdn.simpleicons.org/linux/ffffff" alt="Linux Logo" width={44} height={44} className="w-11 h-11 drop-shadow-[0_8px_8px_rgba(0,0,0,0.8)] invert dark:invert-0" />
             </RealisticBadge>
         ),
     },

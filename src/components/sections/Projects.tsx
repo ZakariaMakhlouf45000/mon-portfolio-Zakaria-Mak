@@ -3,6 +3,9 @@
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import React from "react";
+import { BookIcon } from "@/components/icons/BookIcon";
+import { NetworkIcon } from "@/components/icons/NetworkIcon";
+import { HangmanIcon } from "@/components/icons/HangmanIcon";
 
 const projects = [
     {
@@ -13,32 +16,7 @@ const projects = [
         tags: ["Java", "Swing", "MySQL"],
         gradient: "from-blue-900/80 to-slate-900/80",
         gradientHover: "from-blue-800/80",
-        icon: (
-            <div className="relative w-14 h-14 md:w-16 md:h-16 group">
-                <style>{`
-                    @keyframes book-float {
-                        0%, 100% { transform: translateY(0px) rotate(0deg); }
-                        50% { transform: translateY(-3px) rotate(2deg); }
-                    }
-                    @keyframes page-turn {
-                        0% { transform: rotateY(0deg) skewY(0deg); opacity: 1; }
-                        50% { transform: rotateY(-90deg) skewY(10deg); opacity: 0.5; }
-                        100% { transform: rotateY(-180deg) skewY(0deg); opacity: 0; }
-                    }
-                `}</style>
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(59,130,246,0.5)]" style={{ animation: "book-float 4s ease-in-out infinite" }}>
-                    <path d="M50 85 L20 75 V25 L50 35 Z" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="3" strokeLinejoin="round" />
-                    <path d="M50 85 L80 75 V25 L50 35 Z" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinejoin="round" />
-                    {/* Turning page */}
-                    <path d="M50 85 L80 75 V25 L50 35 Z" fill="rgba(255,255,255,0.8)" style={{ transformOrigin: "50% 50%", animation: "page-turn 3s cubic-bezier(0.4, 0, 0.2, 1) infinite" }} />
-                    <path d="M50 85 L80 75 V25 L50 35 Z" fill="rgba(255,255,255,0.5)" style={{ transformOrigin: "50% 50%", animation: "page-turn 3s cubic-bezier(0.4, 0, 0.2, 1) infinite", animationDelay: "0.2s" }} />
-                    {/* Lines context */}
-                    <line x1="30" y1="40" x2="45" y2="45" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" />
-                    <line x1="30" y1="55" x2="40" y2="58.5" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" />
-                    <line x1="50" y1="35" x2="50" y2="85" stroke="rgba(255,255,255,0.9)" strokeWidth="3" strokeLinecap="round" />
-                </svg>
-            </div>
-        ),
+        icon: <BookIcon />,
     },
     {
         title: "Architecture Réseau Ent.",
@@ -48,37 +26,7 @@ const projects = [
         tags: ["Cisco IOS", "GNS3", "VLAN/ACL"],
         gradient: "from-emerald-900/80 to-slate-900/80",
         gradientHover: "from-emerald-800/80",
-        icon: (
-            <div className="relative w-14 h-14 md:w-16 md:h-16">
-                <style>{`
-                    @keyframes dash-pulse {
-                        0% { stroke-dashoffset: 100; opacity: 0.3; }
-                        50% { opacity: 1; }
-                        100% { stroke-dashoffset: 0; opacity: 0.3; }
-                    }
-                    @keyframes node-pulse {
-                        0%, 100% { transform: scale(1); filter: brightness(1); }
-                        50% { transform: scale(1.3); filter: brightness(1.5); }
-                    }
-                `}</style>
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(16,185,129,0.5)]">
-                    {/* Background paths */}
-                    <path d="M20,50 L50,20 L80,50 L50,80 Z" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" />
-                    {/* Pulsing data packets */}
-                    <path d="M20,50 L50,20 L80,50 L50,80 Z" fill="none" stroke="#34d399" strokeWidth="3.5" strokeDasharray="15 30" strokeLinecap="round" style={{ animation: "dash-pulse 2s linear infinite" }} />
-                    <line x1="20" y1="50" x2="80" y2="50" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeDasharray="4 4" />
-
-                    {/* Nodes */}
-                    <circle cx="50" cy="50" r="10" fill="rgba(16,185,129,0.2)" stroke="white" strokeWidth="2" />
-                    <circle cx="50" cy="50" r="5" fill="white" style={{ animation: "node-pulse 2s ease-in-out infinite" }} />
-
-                    <circle cx="20" cy="50" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
-                    <circle cx="80" cy="50" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
-                    <circle cx="50" cy="20" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
-                    <circle cx="50" cy="80" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
-                </svg>
-            </div>
-        ),
+        icon: <NetworkIcon />,
     },
     {
         title: "Analyse de Graphes",
@@ -129,50 +77,7 @@ const projects = [
         tags: ["JavaFX", "UX Design", "Event-Driven"],
         gradient: "from-amber-900/80 to-slate-900/80",
         gradientHover: "from-amber-800/80",
-        icon: (
-            <div className="relative w-14 h-14 md:w-16 md:h-16">
-                <style>{`
-                    @keyframes hangman-draw {
-                        0% { stroke-dashoffset: 150; opacity: 0; }
-                        15%, 85% { stroke-dashoffset: 0; opacity: 1; }
-                        100% { stroke-dashoffset: 150; opacity: 0; }
-                    }
-                    @keyframes hangman-swing {
-                        0%, 100% { transform: rotate(-8deg); }
-                        50% { transform: rotate(8deg); }
-                    }
-                    @keyframes part-pop {
-                        0%, 25% { opacity: 0; transform: scale(0.5); }
-                        35%, 85% { opacity: 1; transform: scale(1); }
-                        95%, 100% { opacity: 0; transform: scale(0.5); }
-                    }
-                `}</style>
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(245,158,11,0.5)]">
-                    {/* Gallows */}
-                    <path d="M20 85 L80 85 M35 85 L35 15 L65 15 L65 25 M35 25 L45 15" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                    {/* Animated drawing of gallows */}
-                    <path d="M20 85 L80 85 M35 85 L35 15 L65 15 L65 25 M35 25 L45 15" fill="none" stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="150" style={{ animation: "hangman-draw 6s ease-in-out infinite" }} />
-
-                    {/* Hanging Man */}
-                    <g style={{ transformOrigin: "65% 15%", animation: "hangman-swing 2.5s ease-in-out infinite" }}>
-                        {/* Rope */}
-                        <line x1="65" y1="15" x2="65" y2="35" stroke="rgba(255,255,255,0.5)" strokeWidth="2.5" />
-                        {/* Head */}
-                        <circle cx="65" cy="45" r="9" fill="none" stroke="white" strokeWidth="3" style={{ transformOrigin: "65% 45%", animation: "part-pop 6s infinite" }} />
-                        <g style={{ transformOrigin: "65% 54%", animation: "part-pop 6s infinite", animationDelay: "0.2s" }}>
-                            {/* Body */}
-                            <line x1="65" y1="54" x2="65" y2="72" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                            {/* Arms */}
-                            <line x1="65" y1="58" x2="53" y2="65" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="65" y1="58" x2="77" y2="65" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                            {/* Legs */}
-                            <line x1="65" y1="72" x2="55" y2="85" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="65" y1="72" x2="75" y2="85" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                        </g>
-                    </g>
-                </svg>
-            </div>
-        ),
+        icon: <HangmanIcon />,
     },
 ];
 

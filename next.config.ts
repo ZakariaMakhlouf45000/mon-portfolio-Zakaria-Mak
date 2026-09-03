@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
     basePath: isGitHubPages ? "/mon-portfolio-Zakaria-Mak" : "",
     images: {
         unoptimized: true,
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "cdn.simpleicons.org",
+            },
+        ],
     },
     eslint: {
         ignoreDuringBuilds: true,

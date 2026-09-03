@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import DreamBubble from "@/components/ui/DreamBubble";
+import { GraduationHatIcon } from "@/components/icons/GraduationHatIcon";
+import Image from "next/image";
 
 const typewriterText =
     "Bonjour ! Je suis Zakaria, un passionné d'informatique basé à Orléans. Mon intérêt pour le développement a commencé lorsque j'ai voulu comprendre comment fonctionnaient mes jeux vidéo préférés, ce qui m'a conduit à écrire mes premières lignes de code.";
@@ -178,48 +180,7 @@ export default function About() {
                                             <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
 
                                             {/* Photorealistic 3D Hat SVG */}
-                                            <svg
-                                                className="w-10 h-10 drop-shadow-[0_8px_8px_rgba(0,0,0,0.8)] transition-transform duration-500 hover:scale-110 hover:-rotate-6"
-                                                viewBox="0 0 100 100"
-                                            >
-                                                <defs>
-                                                    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                        <stop offset="0%" stopColor="#475569" />
-                                                        <stop offset="40%" stopColor="#1e293b" />
-                                                        <stop offset="100%" stopColor="#020617" />
-                                                    </linearGradient>
-                                                    <linearGradient id="baseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                        <stop offset="0%" stopColor="#0f172a" />
-                                                        <stop offset="100%" stopColor="#000000" />
-                                                    </linearGradient>
-                                                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                        <stop offset="0%" stopColor="#fef08a" />
-                                                        <stop offset="40%" stopColor="#eab308" />
-                                                        <stop offset="100%" stopColor="#854d0e" />
-                                                    </linearGradient>
-                                                    <filter id="insetShadow">
-                                                        <feDropShadow dx="-2" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.8" />
-                                                    </filter>
-                                                    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
-                                                        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#eab308" floodOpacity="0.5" />
-                                                    </filter>
-                                                </defs>
-
-                                                {/* Skull cap (Cylinder underneath) */}
-                                                <path d="M 30 50 L 30 70 Q 50 85 70 70 L 70 50 Z" fill="url(#baseGrad)" filter="url(#insetShadow)" />
-
-                                                {/* Board (Top Rhombus) */}
-                                                <path d="M 50 25 L 88 43 L 50 63 L 12 43 Z" fill="url(#boardGrad)" stroke="#64748b" strokeWidth="0.5" />
-
-                                                {/* Top Button Center */}
-                                                <ellipse cx="50" cy="43" rx="4" ry="2.5" fill="url(#goldGrad)" filter="url(#goldGlow)" />
-
-                                                {/* Tassel String */}
-                                                <path d="M 50 43 Q 65 48 78 68" fill="none" stroke="url(#goldGrad)" strokeWidth="1.5" strokeLinecap="round" />
-
-                                                {/* Tassel Fringe */}
-                                                <path d="M 78 68 L 74 85 L 82 85 Z" fill="url(#goldGrad)" filter="url(#goldGlow)" />
-                                            </svg>
+                                            <GraduationHatIcon />
                                         </span>
                                         <span className="font-extrabold text-transparent bg-clip-text transition-colors duration-700" style={{ backgroundImage: "linear-gradient(to bottom right, var(--text-heading), var(--text-secondary))" }}>
                                             Parcours Académique
@@ -318,11 +279,14 @@ export default function About() {
                                                     boxShadow: "inset 0 2px 8px rgba(0,0,0,0.6), inset 0 -1px 4px rgba(255,255,255,0.05)",
                                                 }}
                                             >
-                                                <img
+                                                <Image
                                                     src={`${basePath}/zak-photo.png`}
                                                     alt="Photo de Zakaria Makhlouf"
-                                                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                                                    fill
+                                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                                                     style={{ transform: "translateZ(20px)" }}
+                                                    priority
                                                 />
 
                                                 {/* Cinematic top-light reflection */}

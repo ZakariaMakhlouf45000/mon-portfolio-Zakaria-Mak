@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const basePath = "";
 
@@ -41,7 +42,7 @@ export default function ThemeToggle() {
 
             <button
                 onClick={toggleTheme}
-                className="relative w-11 h-11 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-[1200ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-110 group cursor-pointer"
+                className="relative w-11 h-11 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-[1200ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-110 group cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-400"
                 style={{
                     animation: "orbit-float 6s ease-in-out infinite",
                     boxShadow: isLight
@@ -65,16 +66,22 @@ export default function ThemeToggle() {
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full pointer-events-none">
 
                     {/* Images from user */}
-                    <img
+                    <Image
                         src={`${basePath}/lune.png`}
                         alt="Moon"
-                        className={`absolute inset-0 w-full h-full object-cover scale-[1.35] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 rotate-0'}`}
+                        fill
+                        sizes="56px"
+                        className={`object-cover scale-[1.35] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 rotate-0'}`}
+                        priority
                     />
 
-                    <img
+                    <Image
                         src={`${basePath}/soleil.png`}
                         alt="Sun"
-                        className={`absolute inset-0 w-full h-full object-cover scale-[1.4] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90 scale-50'}`}
+                        fill
+                        sizes="56px"
+                        className={`object-cover scale-[1.4] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90 scale-50'}`}
+                        priority
                     />
                 </div>
                 {/* Hide standard SVG icons since the button itself IS the celestial body */}

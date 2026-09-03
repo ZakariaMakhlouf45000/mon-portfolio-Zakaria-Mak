@@ -35,6 +35,7 @@ export default function CustomCursor() {
 
         window.addEventListener("mousemove", onMouseMove);
 
+        let reqId: number;
         const render = () => {
             // Use exact position for the tiny dot
             if (dot) {
@@ -49,9 +50,9 @@ export default function CustomCursor() {
                 outline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 9999px) translate(-50%, -50%)`;
             }
 
-            requestAnimationFrame(render);
+            reqId = requestAnimationFrame(render);
         };
-        const reqId = requestAnimationFrame(render);
+        reqId = requestAnimationFrame(render);
 
         return () => {
             window.removeEventListener("mousemove", onMouseMove);
