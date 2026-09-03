@@ -31,7 +31,7 @@ export default function ThemeToggle() {
     };
 
     return (
-        <div className="fixed bottom-4 left-4 md:top-8 md:bottom-auto md:left-auto md:right-8 md:translate-x-0 z-[40]">
+        <div className="fixed top-5 left-4 md:top-8 md:left-auto md:right-8 md:translate-x-0 z-[40]">
             <style>{`
                 @keyframes orbit-float {
                     0%, 100% { transform: translateY(0); }
