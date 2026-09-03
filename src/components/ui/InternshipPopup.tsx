@@ -1,9 +1,41 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
+// Typewriter Helper Component
+const Typewriter = ({ text, delay = 0, onComplete, showCursor = false }: { text: string, delay?: number, onComplete?: () => void, showCursor?: boolean }) => {
+    const [displayed, setDisplayed] = useState("");
+    const [isDone, setIsDone] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            let i = 0;
+            const interval = setInterval(() => {
+                i++;
+                setDisplayed(text.substring(0, i));
+                if (i > text.length) {
+                    clearInterval(interval);
+                    setIsDone(true);
+                    if (onComplete) onComplete();
+                }
+            }, 15);
+            return () => clearInterval(interval);
+        }, delay);
+        return () => clearTimeout(timer);
+    }, [text, delay]);
+
+    return (
+        <span>
+            {displayed}
+            {showCursor && !isDone && <span className="animate-pulse inline-block w-1.5 h-4 ml-1 bg-teal-400 translate-y-1"></span>}
+            {showCursor && isDone && <span className="animate-pulse inline-block w-1.5 h-4 ml-1 bg-teal-400/50 translate-y-1"></span>}
+        </span>
+    );
+};
+
 export default function InternshipPopup() {
     const [isVisible, setIsVisible] = useState(false);
     const [isRendered, setIsRendered] = useState(false);
+    const [para1Done, setPara1Done] = useState(false);
 
     useEffect(() => {
         // Trigger entrance after a short delay for ultra-style
@@ -50,14 +82,29 @@ export default function InternshipPopup() {
                     </div>
 
                     <h2 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: 'var(--text-heading)' }}>
-                        Stage Informatique (BUT 3)
+                        Stage Informatique (BUT 2)
                     </h2>
 
-                    <p className="text-sm md:text-base leading-relaxed mb-8 opacity-90" style={{ color: 'var(--text-secondary)' }}>
-                        Afin de valider ma troisième année de <strong style={{ color: 'var(--accent)' }}>BUT Informatique</strong>, je cherche activement mon stage de fin d'études.
-                        <br /><br />
-                        Passionné par le développement d'interfaces vivantes et robustes, je suis prêt à m'investir concrètement au sein de vos équipes !
-                    </p>
+                    <div className="text-sm md:text-base leading-relaxed mb-8 opacity-90 min-h-[100px] flex flex-col gap-4 text-center" style={{ color: 'var(--text-secondary)' }}>
+                        <p>
+                            {isVisible && (
+                                <Typewriter
+                                    text="Afin de valider ma deuxième année de BUT Informatique, je cherche activement mon stage de fin d'année."
+                                    delay={400}
+                                    onComplete={() => setPara1Done(true)}
+                                    showCursor={!para1Done}
+                                />
+                            )}
+                        </p>
+                        <p>
+                            {para1Done && (
+                                <Typewriter
+                                    text="Passionné par le développement d'interfaces vivantes et robustes, je suis prêt à m'investir concrètement au sein de vos équipes !"
+                                    showCursor={true}
+                                />
+                            )}
+                        </p>
+                    </div>
 
                     <button
                         onClick={closePopup}

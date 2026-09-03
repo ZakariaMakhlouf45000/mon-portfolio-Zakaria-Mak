@@ -1,7 +1,7 @@
 "use client";
 
 import Reveal from "@/components/ui/Reveal";
-import React, { useRef, useState, MouseEvent, useEffect } from "react";
+import React, { useRef, useState, MouseEvent, useEffect, useCallback } from "react";
 
 const codeTokens = [
     { type: 'keyword', text: 'import ' }, { type: 'text', text: '{ ' }, { type: 'class', text: 'Creative' }, { type: 'text', text: ' } ' }, { type: 'keyword', text: 'from ' }, { type: 'string', text: '"dev/zakaria";' },
@@ -20,22 +20,34 @@ const fullText = codeTokens.map(t => t.text).join("");
 
 export default function Hero() {
     const heroRef = useRef<HTMLElement>(null);
-    const contentRef = useRef<HTMLDivElement>(null);
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-    const [scrollY, setScrollY] = useState(0);
+    const cubeRef = useRef<HTMLDivElement>(null);
+    const glowRef = useRef<HTMLDivElement>(null);
+
+    // Refs for parallax layers
+    const layer1Refs = useRef<HTMLDivElement[]>([]);
+    const layer2Refs = useRef<HTMLDivElement[]>([]);
+    const layer3Refs = useRef<HTMLDivElement[]>([]);
+
+    const scrollRef = useRef(0);
+    const mouseRef = useRef({ x: 0, y: 0 });
+    const rafRef = useRef(0);
+
     const [isMounted, setIsMounted] = useState(false);
     const [charIndex, setCharIndex] = useState(0);
 
+    // Track layers for direct DOM updates
+    const addToLayer = useCallback((layer: number) => (el: HTMLDivElement | null) => {
+        if (!el) return;
+        if (layer === 1 && !layer1Refs.current.includes(el)) layer1Refs.current.push(el);
+        if (layer === 2 && !layer2Refs.current.includes(el)) layer2Refs.current.push(el);
+        if (layer === 3 && !layer3Refs.current.includes(el)) layer3Refs.current.push(el);
+    }, []);
+
     useEffect(() => {
         setIsMounted(true);
-        let frame: number;
-        const onScroll = () => {
-            frame = requestAnimationFrame(() => {
-                setScrollY(window.scrollY);
-            });
-        };
-        window.addEventListener("scroll", onScroll, { passive: true });
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+        // Typing animation (kept as state since it only changes ~260 times)
         const typingInterval = setInterval(() => {
             setCharIndex(prev => {
                 if (prev >= fullText.length) {
@@ -48,64 +60,81 @@ export default function Hero() {
             });
         }, 50);
 
+        // Unified render loop — NO setState for scroll/mouse
+        const renderFrame = () => {
+            const sy = scrollRef.current;
+            const mx = mouseRef.current.x;
+            const my = mouseRef.current.y;
+
+            // Cube wrapper
+            if (cubeRef.current) {
+                const translateY = sy * 0.6;
+                const rotateX = Math.min(sy * 0.08, 90);
+                const brightness = Math.max(1 - sy / 600, 0.2);
+                const scale = Math.max(1 - sy / 2000, 0.8);
+                const opacity = Math.max(1 - sy / 800, 0);
+
+                cubeRef.current.style.transform = `translateY(${translateY}px) rotateX(${rotateX}deg) scale(${scale})`;
+                cubeRef.current.style.filter = `brightness(${brightness})`;
+                cubeRef.current.style.opacity = String(opacity);
+            }
+
+            // Glow follows mouse
+            if (glowRef.current && !isMobile) {
+                glowRef.current.style.transform = `translate3d(${mx * -40}px, ${my * -40}px, -100px)`;
+            }
+
+            const applyLayer = (els: HTMLDivElement[], depth: number, rotateLimit: number) => {
+                const tYScroll = sy * 0.15 * depth;
+                const tZScroll = sy * -0.2 * depth;
+                const scrollRotateX = Math.min(sy * 0.02 * depth, 20);
+                const scrollOpacity = Math.max(1 - (sy / Math.max(900 * depth, 500)), 0);
+
+                const mouseX = isMobile ? 0 : mx * (depth * 25);
+                const mouseY = isMobile ? 0 : my * (depth * 25);
+                const rotateY = isMobile ? 0 : mx * rotateLimit;
+                const rotateXMouse = isMobile ? 0 : -my * rotateLimit;
+
+                const transform = isMobile
+                    ? `translate3d(0, ${-tYScroll}px, 0)`
+                    : `perspective(1400px) translate3d(${mouseX}px, ${-tYScroll + mouseY}px, ${tZScroll}px) rotateX(${rotateXMouse + scrollRotateX}deg) rotateY(${rotateY}deg)`;
+
+                els.forEach(el => {
+                    el.style.transform = transform;
+                    el.style.opacity = String(scrollOpacity);
+                });
+            };
+
+            applyLayer(layer1Refs.current, 0.2, 5);
+            applyLayer(layer2Refs.current, 0.3, 3);
+            applyLayer(layer3Refs.current, 0.5, 8);
+
+            rafRef.current = requestAnimationFrame(renderFrame);
+        };
+
+        rafRef.current = requestAnimationFrame(renderFrame);
+
+        const onScroll = () => { scrollRef.current = window.scrollY; };
+        window.addEventListener("scroll", onScroll, { passive: true });
+
         return () => {
             window.removeEventListener("scroll", onScroll);
-            if (frame) cancelAnimationFrame(frame);
+            cancelAnimationFrame(rafRef.current);
             clearInterval(typingInterval);
         };
     }, []);
 
     const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
-        if (!heroRef.current || !isMounted || window.matchMedia("(max-width: 768px)").matches) return;
+        if (!heroRef.current) return;
         const rect = heroRef.current.getBoundingClientRect();
-
-        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-        setMousePos({ x, y });
-    };
-
-    const handleMouseLeave = () => {
-        setMousePos({ x: 0, y: 0 });
-    };
-
-    const getAnimStyles = (depth: number, rotateLimit: number = 0) => {
-        const translateYScroll = scrollY * 0.15 * depth;
-        const translateZScroll = scrollY * -0.2 * depth;
-        const scrollRotateX = Math.min(scrollY * 0.02 * depth, 20);
-        const scrollOpacity = Math.max(1 - (scrollY / Math.max(900 * depth, 500)), 0);
-
-        if (!isMounted || window.matchMedia("(max-width: 768px)").matches) {
-            return {
-                transform: `translate3d(0, ${-translateYScroll}px, 0)`,
-                opacity: scrollOpacity,
-                willChange: "transform, opacity",
-                transformStyle: "preserve-3d" as const
-            };
-        }
-
-        const mouseX = mousePos.x * (depth * 25);
-        const mouseY = mousePos.y * (depth * 25);
-
-        const rotateY = mousePos.x * rotateLimit;
-        const rotateX = -mousePos.y * rotateLimit;
-
-        return {
-            transform: `perspective(1400px) translate3d(${mouseX}px, ${-translateYScroll + mouseY}px, ${translateZScroll}px) rotateX(${rotateX + scrollRotateX}deg) rotateY(${rotateY}deg)`,
-            opacity: scrollOpacity,
-            transition: "transform 0.1s linear",
-            willChange: "transform, opacity",
-            transformStyle: "preserve-3d" as const
+        mouseRef.current = {
+            x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
+            y: ((e.clientY - rect.top) / rect.height) * 2 - 1,
         };
     };
 
-    // ANIMATION DU "CUBE": Pliage géant vers l'arrière au scroll
-    const heroCubeStyle = {
-        transform: `translateY(${scrollY * 0.6}px) rotateX(${Math.min(scrollY * 0.08, 90)}deg)`,
-        transformOrigin: "bottom center",
-        filter: `brightness(${Math.max(1 - scrollY / 600, 0.2)}) scale(${Math.max(1 - scrollY / 2000, 0.8)})`,
-        opacity: Math.max(1 - scrollY / 800, 0),
-        willChange: "transform, opacity, filter",
-        transformStyle: "preserve-3d" as const
+    const handleMouseLeave = () => {
+        mouseRef.current = { x: 0, y: 0 };
     };
 
     const renderTypedCode = () => {
@@ -139,20 +168,29 @@ export default function Hero() {
             className="hero-stage flex flex-col justify-center min-h-[90vh] md:min-h-screen pt-28 pb-16 relative overflow-x-clip"
             style={{ perspective: "2500px" }}
         >
-            <div style={heroCubeStyle} className="w-full h-full flex flex-col justify-center relative">
+            <div
+                ref={cubeRef}
+                className="w-full h-full flex flex-col justify-center relative"
+                style={{
+                    transformOrigin: "bottom center",
+                    willChange: "transform, opacity",
+                    transformStyle: "preserve-3d",
+                }}
+            >
                 <div
-                    className="absolute top-1/3 left-1/4 w-[40vw] h-[40vw] md:w-[30vw] md:h-[30vw] rounded-full blur-[100px] opacity-20 pointer-events-none transition-transform duration-1000 mix-blend-screen"
+                    ref={glowRef}
+                    className="absolute top-1/3 left-1/4 w-[40vw] h-[40vw] md:w-[30vw] md:h-[30vw] rounded-full blur-[100px] opacity-20 pointer-events-none mix-blend-screen"
                     style={{
                         background: "radial-gradient(circle, var(--accent) 0%, transparent 70%)",
-                        transform: `translate3d(${mousePos.x * -40}px, ${mousePos.y * -40}px, -100px)`
+                        willChange: "transform",
                     }}
                 />
 
-                <div ref={contentRef} className="z-10 relative w-[94%] xl:w-[96%] max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 xl:gap-20 items-center" style={{ perspective: "1500px", transformStyle: "preserve-3d" }}>
+                <div className="z-10 relative w-[94%] xl:w-[96%] max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 xl:gap-20 items-center" style={{ perspective: "1500px", transformStyle: "preserve-3d" }}>
 
                     <div className="lg:col-span-7 xl:col-span-7 pr-0 lg:pr-8" style={{ transformStyle: "preserve-3d" }}>
                         <Reveal delay={0}>
-                            <div style={getAnimStyles(0.2, 5)} className="inline-block relative origin-left">
+                            <div ref={addToLayer(1)} className="inline-block relative origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
                                 <p
                                     className="eyebrow mb-8 px-5 py-3 rounded-full backdrop-blur-sm text-sm uppercase tracking-widest box-3d-relief z-20 bg-slate-900/10 border-none font-bold"
                                     style={{
@@ -166,30 +204,34 @@ export default function Hero() {
                         </Reveal>
 
                         <Reveal delay={100}>
-                            <h1
-                                className="hero-title text-5xl md:text-7xl lg:text-6xl xl:text-[6.5rem] font-bold mb-6 tracking-tighter leading-[1.05] drop-shadow-2xl origin-left"
-                                style={{ ...getAnimStyles(0.5, 8), color: "var(--text-heading)" }}
-                            >
-                                <span className="inline-block text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={{ transform: "translateZ(120px) rotateX(8deg)" }}>
-                                    Des interfaces
-                                </span><br />
-                                <em className="relative inline-block leading-tight pt-2 not-italic text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={{ color: "var(--accent)", transform: "translateZ(180px) rotateY(-5deg) rotateX(15deg)" }}>
-                                    vivantes.
-                                </em>
-                            </h1>
+                            <div ref={addToLayer(3)} className="origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
+                                <h1
+                                    className="hero-title text-5xl md:text-7xl lg:text-6xl xl:text-[6.5rem] font-bold mb-6 tracking-tighter leading-[1.05] drop-shadow-2xl origin-left"
+                                    style={{ color: "var(--text-heading)" }}
+                                >
+                                    <span className="inline-block text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={{ transform: "translateZ(120px) rotateX(8deg)" }}>
+                                        Des interfaces
+                                    </span><br />
+                                    <em className="relative inline-block leading-tight pt-2 not-italic text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={{ color: "var(--accent)", transform: "translateZ(180px) rotateY(-5deg) rotateX(15deg)" }}>
+                                        vivantes.
+                                    </em>
+                                </h1>
+                            </div>
                         </Reveal>
 
                         <Reveal delay={200}>
-                            <p
-                                className="max-w-xl text-base md:text-xl lg:text-2xl mb-12 leading-relaxed origin-left font-medium"
-                                style={{ ...getAnimStyles(0.3, 3), color: "var(--text-secondary)" }}
-                            >
-                                Étudiant en <span className="border-b-[3px] pb-1 transition-colors relative inline-block text-3d-relief" style={{ color: "var(--text-heading)", borderColor: "var(--accent)", transform: "translateZ(40px)" }}>BUT Informatique</span>, je transforme des systèmes complexes en expériences web claires, sensibles et mémorables.
-                            </p>
+                            <div ref={addToLayer(2)} className="origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
+                                <p
+                                    className="max-w-xl text-base md:text-xl lg:text-2xl mb-12 leading-relaxed origin-left font-medium"
+                                    style={{ color: "var(--text-secondary)" }}
+                                >
+                                    Étudiant en <span className="border-b-[3px] pb-1 transition-colors relative inline-block text-3d-relief" style={{ color: "var(--text-heading)", borderColor: "var(--accent)", transform: "translateZ(40px)" }}>BUT Informatique</span>, je transforme des systèmes complexes en expériences web claires, sensibles et mémorables.
+                                </p>
+                            </div>
                         </Reveal>
 
                         <Reveal delay={300}>
-                            <div className="flex flex-wrap gap-6 md:gap-8 origin-left" style={getAnimStyles(0.2, 5)}>
+                            <div ref={addToLayer(1)} className="flex flex-wrap gap-6 md:gap-8 origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
                                 <a
                                     href="#contact"
                                     className="group relative px-6 md:px-8 py-3 md:py-4 overflow-hidden rounded-full font-mono text-sm tracking-wider transition-all duration-300 font-bold box-3d-relief"
@@ -221,9 +263,12 @@ export default function Hero() {
 
                     <div className="hidden lg:block lg:col-span-5 xl:col-span-5 relative w-full h-full perspective-2000">
                         <Reveal delay={350} direction="right" className="w-full flex justify-end">
-                            <div style={{ ...getAnimStyles(0.7, 10), transformStyle: "preserve-3d" }} className="origin-center w-full max-w-lg box-3d-relief rounded-xl"
-                                aria-label="Aperçu du code">
-
+                            <div
+                                ref={addToLayer(3)}
+                                className="origin-center w-full max-w-lg box-3d-relief rounded-xl"
+                                style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}
+                                aria-label="Aperçu du code"
+                            >
                                 {/* Window Header */}
                                 <div className="bg-[#1e1e1e] flex items-center px-4 py-3 border-b border-[#333] rounded-t-xl" style={{ transform: "translateZ(10px)" }}>
                                     <div className="flex gap-2">

@@ -88,6 +88,21 @@ export default function ChatCompanion() {
     ];
     const [bubbleIndex, setBubbleIndex] = useState(0);
     const [isBubbleTalking, setIsBubbleTalking] = useState(false);
+    const hasAutoOpened = useRef(false);
+
+    useEffect(() => {
+        // Auto-activate on mobile/tablet after a delay (e.g., 4 seconds)
+        const checkMobileAutoOpen = () => {
+            const isTouchOrMobile = window.matchMedia("(hover: none)").matches || window.innerWidth < 768;
+            if (isTouchOrMobile && !hasAutoOpened.current) {
+                hasAutoOpened.current = true;
+                setIsOpen(true);
+            }
+        };
+
+        const timer = setTimeout(checkMobileAutoOpen, 4000);
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -221,30 +236,51 @@ export default function ChatCompanion() {
             {/* Floating Trigger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`pointer-events-auto relative group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-slate-900 border border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:scale-110 hover:shadow-[0_0_30px_rgba(20,184,166,0.5)] transition-all duration-300 ease-out z-50`}
-                style={{ animation: isOpen ? "none" : "floatY 6s ease-in-out infinite alternate" }}
+                className="pointer-events-auto relative group flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-slate-900 border border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:scale-110 hover:shadow-[0_0_30px_rgba(20,184,166,0.5)] transition-all duration-300 ease-out z-50 animate-[bot-float_4s_ease-in-out_infinite]"
+                style={{ animationPlayState: isOpen ? "paused" : "running" }}
                 aria-label="Ouvrir l'assistant"
             >
-                {/* Comic Book Speech Bubble */}
+                <style>{`
+                    @keyframes bot-float {
+                        0%, 100% { transform: translateY(0px) scale(1); }
+                        50% { transform: translateY(-8px) scale(1.02); }
+                    }
+                `}</style>
+
+                {/* Sci-Fi Holographic HUD Tag */}
                 {!isOpen && (
-                    <div className="absolute -top-[45px] md:-top-[50px] -right-2 md:right-0 z-50 pointer-events-none drop-shadow-lg">
+                    <div className="absolute -top-[50px] md:-top-[55px] right-2 md:right-4 z-50 pointer-events-none flex flex-col items-end">
                         <style>{`
-                            @keyframes popIn {
-                                0% { opacity: 0; transform: translateY(4px) scale(0.95); }
-                                100% { opacity: 1; transform: translateY(0) scale(1); }
+                            @keyframes holo-pop {
+                                0% { opacity: 0; transform: translateY(10px) scale(0.9); filter: blur(5px); }
+                                70% { filter: blur(0px); }
+                                100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+                            }
+                            @keyframes scanline {
+                                0% { transform: translateY(-100%); }
+                                100% { transform: translateY(200%); }
                             }
                         `}</style>
-                        <div className="relative bg-slate-800 border border-teal-500/50 px-4 py-2 rounded-2xl rounded-br-none whitespace-nowrap overflow-hidden">
+
+                        <div className="relative bg-teal-950/60 backdrop-blur-md border-l-2 border-r-2 border-teal-400 px-4 py-1.5 whitespace-nowrap overflow-hidden">
+                            {/* Top/Bottom sci-fi thin borders */}
+                            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-teal-400 to-transparent opacity-60" />
+                            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-teal-400 to-transparent opacity-60" />
+
+                            {/* Scanning line effect */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal-400/30 to-transparent w-full h-[50%] animate-[scanline_2s_linear_infinite]" />
+
                             <p
                                 key={bubbleIndex}
-                                className="text-xs font-medium text-teal-50"
-                                style={{ animation: "popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards" }}
+                                className="text-[11px] uppercase font-mono font-bold tracking-widest text-teal-300 drop-shadow-[0_0_8px_rgba(45,212,191,0.8)]"
+                                style={{ animation: "holo-pop 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards" }}
                             >
                                 {bubbleTexts[bubbleIndex]}
                             </p>
-                            {/* Queue de la bulle (tail) pointant vers la tête */}
-                            <div className="absolute -bottom-[5px] right-2 md:right-4 w-3 h-3 bg-slate-800 border-r border-b border-teal-500/50 transform rotate-45" />
                         </div>
+
+                        {/* Sci-fi Connection Line (tail replacement) */}
+                        <div className="w-[2px] h-5 bg-gradient-to-b from-teal-400 to-transparent mr-6" />
                     </div>
                 )}
 

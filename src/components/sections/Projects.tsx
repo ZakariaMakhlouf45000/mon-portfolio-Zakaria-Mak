@@ -14,9 +14,30 @@ const projects = [
         gradient: "from-blue-900/80 to-slate-900/80",
         gradientHover: "from-blue-800/80",
         icon: (
-            <svg className="w-12 h-12 drop-shadow-2xl" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-            </svg>
+            <div className="relative w-14 h-14 md:w-16 md:h-16 group">
+                <style>{`
+                    @keyframes book-float {
+                        0%, 100% { transform: translateY(0px) rotate(0deg); }
+                        50% { transform: translateY(-3px) rotate(2deg); }
+                    }
+                    @keyframes page-turn {
+                        0% { transform: rotateY(0deg) skewY(0deg); opacity: 1; }
+                        50% { transform: rotateY(-90deg) skewY(10deg); opacity: 0.5; }
+                        100% { transform: rotateY(-180deg) skewY(0deg); opacity: 0; }
+                    }
+                `}</style>
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(59,130,246,0.5)]" style={{ animation: "book-float 4s ease-in-out infinite" }}>
+                    <path d="M50 85 L20 75 V25 L50 35 Z" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="3" strokeLinejoin="round" />
+                    <path d="M50 85 L80 75 V25 L50 35 Z" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinejoin="round" />
+                    {/* Turning page */}
+                    <path d="M50 85 L80 75 V25 L50 35 Z" fill="rgba(255,255,255,0.8)" style={{ transformOrigin: "50% 50%", animation: "page-turn 3s cubic-bezier(0.4, 0, 0.2, 1) infinite" }} />
+                    <path d="M50 85 L80 75 V25 L50 35 Z" fill="rgba(255,255,255,0.5)" style={{ transformOrigin: "50% 50%", animation: "page-turn 3s cubic-bezier(0.4, 0, 0.2, 1) infinite", animationDelay: "0.2s" }} />
+                    {/* Lines context */}
+                    <line x1="30" y1="40" x2="45" y2="45" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="30" y1="55" x2="40" y2="58.5" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="50" y1="35" x2="50" y2="85" stroke="rgba(255,255,255,0.9)" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+            </div>
         ),
     },
     {
@@ -28,9 +49,35 @@ const projects = [
         gradient: "from-emerald-900/80 to-slate-900/80",
         gradientHover: "from-emerald-800/80",
         icon: (
-            <svg className="w-12 h-12 drop-shadow-2xl" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
+            <div className="relative w-14 h-14 md:w-16 md:h-16">
+                <style>{`
+                    @keyframes dash-pulse {
+                        0% { stroke-dashoffset: 100; opacity: 0.3; }
+                        50% { opacity: 1; }
+                        100% { stroke-dashoffset: 0; opacity: 0.3; }
+                    }
+                    @keyframes node-pulse {
+                        0%, 100% { transform: scale(1); filter: brightness(1); }
+                        50% { transform: scale(1.3); filter: brightness(1.5); }
+                    }
+                `}</style>
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(16,185,129,0.5)]">
+                    {/* Background paths */}
+                    <path d="M20,50 L50,20 L80,50 L50,80 Z" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" />
+                    {/* Pulsing data packets */}
+                    <path d="M20,50 L50,20 L80,50 L50,80 Z" fill="none" stroke="#34d399" strokeWidth="3.5" strokeDasharray="15 30" strokeLinecap="round" style={{ animation: "dash-pulse 2s linear infinite" }} />
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeDasharray="4 4" />
+
+                    {/* Nodes */}
+                    <circle cx="50" cy="50" r="10" fill="rgba(16,185,129,0.2)" stroke="white" strokeWidth="2" />
+                    <circle cx="50" cy="50" r="5" fill="white" style={{ animation: "node-pulse 2s ease-in-out infinite" }} />
+
+                    <circle cx="20" cy="50" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
+                    <circle cx="80" cy="50" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
+                    <circle cx="50" cy="20" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
+                    <circle cx="50" cy="80" r="7" fill="#1e293b" stroke="#34d399" strokeWidth="2" />
+                </svg>
+            </div>
         ),
     },
     {
@@ -42,9 +89,36 @@ const projects = [
         gradient: "from-purple-900/80 to-slate-900/80",
         gradientHover: "from-purple-800/80",
         icon: (
-            <svg className="w-12 h-12 drop-shadow-2xl" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-            </svg>
+            <div className="relative w-14 h-14 md:w-16 md:h-16">
+                <style>{`
+                    @keyframes graph-rotate {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    @keyframes graph-node-pulse {
+                        0%, 100% { transform: scale(1); }
+                        50% { transform: scale(1.4); }
+                    }
+                    @keyframes edge-draw {
+                        0%, 100% { stroke-dashoffset: 100; opacity: 0.3; }
+                        50% { stroke-dashoffset: 0; opacity: 1; }
+                    }
+                `}</style>
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(168,85,247,0.5)]">
+                    <g style={{ transformOrigin: "50% 50%", animation: "graph-rotate 25s linear infinite" }}>
+                        <path d="M50 20 L25 70 L75 70 Z" fill="rgba(168,85,247,0.1)" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+                        {/* Dynamic edges */}
+                        <path d="M50 50 L50 20 M50 50 L25 70 M50 50 L75 70" fill="none" stroke="#d8b4fe" strokeWidth="3" strokeDasharray="100" style={{ animation: "edge-draw 4s ease-in-out infinite alternate" }} />
+
+                        <circle cx="50" cy="50" r="8" fill="white" style={{ transformOrigin: "50% 50%", animation: "graph-node-pulse 2s ease-in-out infinite" }} />
+
+                        <circle cx="50" cy="20" r="9" fill="#1e293b" stroke="#c084fc" strokeWidth="3" />
+                        <circle cx="25" cy="70" r="9" fill="#1e293b" stroke="#c084fc" strokeWidth="3" />
+                        <circle cx="75" cy="70" r="9" fill="#1e293b" stroke="#c084fc" strokeWidth="3" />
+                    </g>
+                </svg>
+            </div>
         ),
     },
     {
@@ -56,9 +130,48 @@ const projects = [
         gradient: "from-amber-900/80 to-slate-900/80",
         gradientHover: "from-amber-800/80",
         icon: (
-            <svg className="w-12 h-12 drop-shadow-2xl" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-            </svg>
+            <div className="relative w-14 h-14 md:w-16 md:h-16">
+                <style>{`
+                    @keyframes hangman-draw {
+                        0% { stroke-dashoffset: 150; opacity: 0; }
+                        15%, 85% { stroke-dashoffset: 0; opacity: 1; }
+                        100% { stroke-dashoffset: 150; opacity: 0; }
+                    }
+                    @keyframes hangman-swing {
+                        0%, 100% { transform: rotate(-8deg); }
+                        50% { transform: rotate(8deg); }
+                    }
+                    @keyframes part-pop {
+                        0%, 25% { opacity: 0; transform: scale(0.5); }
+                        35%, 85% { opacity: 1; transform: scale(1); }
+                        95%, 100% { opacity: 0; transform: scale(0.5); }
+                    }
+                `}</style>
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_20px_rgba(245,158,11,0.5)]">
+                    {/* Gallows */}
+                    <path d="M20 85 L80 85 M35 85 L35 15 L65 15 L65 25 M35 25 L45 15" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Animated drawing of gallows */}
+                    <path d="M20 85 L80 85 M35 85 L35 15 L65 15 L65 25 M35 25 L45 15" fill="none" stroke="#fbbf24" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="150" style={{ animation: "hangman-draw 6s ease-in-out infinite" }} />
+
+                    {/* Hanging Man */}
+                    <g style={{ transformOrigin: "65% 15%", animation: "hangman-swing 2.5s ease-in-out infinite" }}>
+                        {/* Rope */}
+                        <line x1="65" y1="15" x2="65" y2="35" stroke="rgba(255,255,255,0.5)" strokeWidth="2.5" />
+                        {/* Head */}
+                        <circle cx="65" cy="45" r="9" fill="none" stroke="white" strokeWidth="3" style={{ transformOrigin: "65% 45%", animation: "part-pop 6s infinite" }} />
+                        <g style={{ transformOrigin: "65% 54%", animation: "part-pop 6s infinite", animationDelay: "0.2s" }}>
+                            {/* Body */}
+                            <line x1="65" y1="54" x2="65" y2="72" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                            {/* Arms */}
+                            <line x1="65" y1="58" x2="53" y2="65" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="65" y1="58" x2="77" y2="65" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                            {/* Legs */}
+                            <line x1="65" y1="72" x2="55" y2="85" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="65" y1="72" x2="75" y2="85" stroke="white" strokeWidth="3" strokeLinecap="round" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
         ),
     },
 ];
@@ -68,17 +181,27 @@ export default function Projects() {
         <section id="projects" className="py-20 relative z-10 w-full" style={{ perspective: "2000px" }}>
             <Reveal>
                 <h2
-                    className="flex items-center text-4xl md:text-5xl font-bold mb-16 text-3d-relief"
-                    style={{ color: "var(--text-heading)", transform: "translateZ(80px)" }}
+                    className="flex items-center text-3xl md:text-4xl lg:text-5xl font-extrabold mb-12 md:mb-16 tracking-tight relative group"
+                    style={{ fontFamily: 'var(--font-syne)', transform: "translateZ(80px)" }}
                 >
-                    <span className="font-mono text-3xl mr-6" style={{ color: "var(--accent)" }}>
-                        02.
+                    {/* Glass Numbering */}
+                    <div className="relative flex items-center justify-center mr-5 md:mr-8">
+                        <span className="absolute inset-0 blur-md rounded-full transition-colors duration-500 opacity-20 group-hover:opacity-40" style={{ backgroundColor: "var(--accent)" }} />
+                        <span className="relative font-mono text-base md:text-2xl font-bold px-3 md:px-4 py-1.5 md:py-2 rounded-[14px] backdrop-blur-md border" style={{ backgroundColor: "var(--bg-tertiary)", color: "var(--accent)", borderColor: "var(--accent)" }}>
+                            02.
+                        </span>
+                    </div>
+
+                    {/* Glowing Theme-Adaptive Text */}
+                    <span className="text-transparent bg-clip-text transition-all duration-700" style={{ backgroundImage: "linear-gradient(to bottom right, var(--text-heading), var(--text-secondary))" }}>
+                        Projets Réalisés
                     </span>
-                    Projets Réalisés
-                    <span
-                        className="h-[2px] w-1/3 ml-8 box-3d-relief"
-                        style={{ background: "var(--bg-tertiary)" }}
-                    />
+
+                    {/* Sci-Fi Animated Divider Line */}
+                    <div className="flex-1 ml-6 md:ml-10 relative h-[1px] md:h-[2px] overflow-hidden rounded-full opacity-60 box-3d-relief">
+                        <div className="absolute inset-0 bg-[var(--bg-tertiary)]" />
+                        <div className="absolute top-0 left-0 h-full w-full -translate-x-[110%] group-hover:translate-x-full transition-transform duration-[1500ms] ease-in-out" style={{ backgroundImage: "linear-gradient(to right, transparent, var(--text-heading), transparent)" }} />
+                    </div>
                 </h2>
             </Reveal>
 
@@ -120,8 +243,11 @@ export default function Projects() {
                             <div className="p-8 md:p-10 flex flex-col flex-1 bg-[var(--bg-tertiary)] backdrop-blur-sm border-t border-[var(--border-subtle)] rounded-b-2xl shadow-inner transition-colors duration-500" style={{ transformStyle: "preserve-3d" }}>
                                 <p className="font-mono text-sm mb-4 font-bold tracking-widest uppercase" style={{ transform: "translateZ(30px)", color: "var(--accent)" }}>CASE STUDY / 0{i + 1}</p>
                                 <h3
-                                    className="text-3xl font-bold mb-4 transition-all duration-300 md:group-hover:text-[var(--accent)] text-3d-relief"
-                                    style={{ color: "var(--text-heading)", transform: "translateZ(80px) scale(1.05)" }}
+                                    className="text-3xl font-extrabold mb-4 transition-all duration-300 md:group-hover:text-transparent md:group-hover:bg-clip-text text-transparent bg-clip-text z-10 relative"
+                                    style={{
+                                        backgroundImage: "linear-gradient(to bottom right, var(--text-heading), var(--text-secondary))",
+                                        transform: "translateZ(80px) scale(1.05)"
+                                    }}
                                 >
                                     {project.title}
                                 </h3>
@@ -154,31 +280,67 @@ export default function Projects() {
 
             {/* GitHub CTA */}
             <Reveal delay={500}>
-                <div className="mt-24 text-center pb-12" style={{ transformStyle: "preserve-3d" }}>
+                <div className="mt-24 flex justify-center pb-12" style={{ transformStyle: "preserve-3d" }}>
                     <a
                         href="https://github.com/ZakariaMakhlouf45000"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-4 px-10 py-5 rounded-xl font-mono text-base uppercase tracking-widest transition-all duration-300 group box-3d-relief bg-[var(--bg-tertiary)] font-bold"
+                        className="group relative flex items-center gap-6 pr-8 p-2 rounded-full cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-2"
                         style={{
-                            color: "var(--text-primary)",
+                            background: "linear-gradient(135deg, rgba(20,184,166,0.1) 0%, rgba(15,23,42,0.6) 100%)",
+                            boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.1), inset 0 -2px 10px rgba(20,184,166,0.2)",
+                            backdropFilter: "blur(20px)",
+                            border: "1px solid rgba(45,212,191,0.2)",
                             transform: "translateZ(60px)"
                         }}
-                        onMouseEnter={(e) => {
-                            const el = e.currentTarget;
-                            el.style.color = "var(--accent)";
-                            el.style.transform = "translateZ(90px) scale(1.05)";
-                        }}
-                        onMouseLeave={(e) => {
-                            const el = e.currentTarget;
-                            el.style.color = "var(--text-primary)";
-                            el.style.transform = "translateZ(60px) scale(1)";
-                        }}
                     >
-                        <span style={{ textShadow: "0 2px 10px rgba(0,0,0,0.2)" }}>Voir plus sur GitHub</span>
-                        <svg className="w-6 h-6 transition-transform duration-300 group-hover:translate-x-2 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
+                        {/* Cadre de survol lumineux */}
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-500/0 via-teal-500/20 to-teal-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                        {/* Logo Photorealiste GitHub dans une bulle de verre */}
+                        <div className="relative w-16 h-16 rounded-full flex items-center justify-center bg-slate-950 border border-slate-700 shadow-[0_10px_20px_rgba(0,0,0,0.6),_inset_0_2px_5px_rgba(255,255,255,0.2)] overflow-hidden">
+                            {/* Reflet de verre courbé */}
+                            <div className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-t-full" />
+
+                            <svg
+                                className="w-10 h-10 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] transition-transform duration-500 group-hover:scale-110"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <defs>
+                                    <linearGradient id="gitMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#ffffff" />
+                                        <stop offset="50%" stopColor="#cbd5e1" />
+                                        <stop offset="100%" stopColor="#475569" />
+                                    </linearGradient>
+                                    <filter id="gitShadow">
+                                        <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#000" floodOpacity="0.8" />
+                                    </filter>
+                                </defs>
+                                <path
+                                    fill="url(#gitMetal)"
+                                    filter="url(#gitShadow)"
+                                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                                />
+                            </svg>
+                        </div>
+
+                        {/* Text Content */}
+                        <div className="flex flex-col items-start justify-center">
+                            <span className="font-mono text-xs text-teal-400/80 uppercase tracking-widest mb-1 shadow-sm">
+                                Découvrir
+                            </span>
+                            <span className="font-bold text-lg text-slate-100 group-hover:text-teal-300 transition-colors drop-shadow-md">
+                                Explorer mon univers
+                            </span>
+                        </div>
+
+                        {/* Arrow indicator */}
+                        <div className="ml-4 w-10 h-10 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center group-hover:bg-teal-500 group-hover:text-slate-900 text-teal-300 transition-all duration-300 shadow-[inset_0_2px_4px_rgba(255,255,255,0.2)]">
+                            <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
                     </a>
                 </div>
             </Reveal>

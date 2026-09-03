@@ -47,6 +47,9 @@ export default function Navbar() {
 
     return (
         <>
+            {/* Global Celestial Theme Toggle Background Element */}
+            <ThemeToggle />
+
             {/* Desktop Dynamic Island */}
             <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] hidden md:flex justify-center w-full pointer-events-none perspective-1000">
                 <nav
@@ -54,7 +57,7 @@ export default function Navbar() {
                     onMouseLeave={() => setIsHovered(false)}
                     className="relative overflow-hidden pointer-events-auto rounded-full flex items-center justify-center p-2"
                     style={{
-                        width: isExpanded ? '650px' : '360px',
+                        width: isExpanded ? '780px' : '360px',
                         height: '64px',
                         transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s, box-shadow 0.5s",
 
@@ -94,33 +97,62 @@ export default function Navbar() {
                     <div
                         className={`absolute inset-0 flex items-center justify-between px-8 transition-all duration-400 ${isExpanded ? 'opacity-100 scale-100 delay-100' : 'opacity-0 scale-95 pointer-events-none'}`}
                     >
-                        <ul className="flex items-center gap-6 font-mono text-xs mac-dock">
+                        <ul className="flex items-center gap-7">
                             {navItems.map((item) => (
-                                <li key={item.href} className="dock-item relative">
+                                <li key={item.href} className="relative group">
                                     <a
                                         href={item.href}
-                                        className="flex items-center gap-1 font-bold"
+                                        className="flex items-center gap-2"
                                         style={{ color: activeSection === item.href.slice(1) ? "var(--accent)" : "var(--text-primary)" }}
                                     >
-                                        <span className="opacity-50" style={{ color: "var(--accent)" }}>{item.num}.</span>
-                                        {item.label}
+                                        <span className="font-mono text-xs opacity-50 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent)" }}>{item.num}.</span>
+                                        <span className="flex" style={{ fontFamily: "var(--font-syne)", fontSize: "16px", fontWeight: 600, letterSpacing: "0.5px" }}>
+                                            {item.label.split('').map((char, i) => (
+                                                <span
+                                                    key={i}
+                                                    className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:-translate-y-1.5"
+                                                    style={{
+                                                        transitionDelay: `${i * 30}ms`,
+                                                        textShadow: activeSection === item.href.slice(1) ? "0 0 10px rgba(20,184,166,0.5)" : "none"
+                                                    }}
+                                                >
+                                                    {char === ' ' ? '\u00A0' : char}
+                                                </span>
+                                            ))}
+                                        </span>
                                     </a>
+                                    {/* Animated Underline */}
+                                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-teal-400 transition-all duration-300 group-hover:w-full" style={{ opacity: 0.8 }} />
                                 </li>
                             ))}
                         </ul>
 
                         <div className="flex items-center gap-4">
-                            <ThemeToggle />
+                            <style>{`
+                                @keyframes cv-shimmer {
+                                    0% { transform: translateX(-150%); }
+                                    50%, 100% { transform: translateX(150%); }
+                                }
+                            `}</style>
+                            {/* Premium CV Button Desktop */}
                             <a
                                 href={`${basePath}/resume.pdf`}
-                                className="px-4 py-1.5 border rounded-full font-mono text-xs transition-all hover:scale-105 shadow-sm"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group relative px-6 py-2 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] border border-teal-500/30 flex items-center gap-2"
                                 style={{
-                                    borderColor: "var(--border-subtle)",
-                                    color: "var(--text-heading)",
-                                    backgroundColor: "var(--bg-primary)"
+                                    background: "linear-gradient(90deg, rgba(20,184,166,0.15) 0%, rgba(59,130,246,0.15) 100%)",
                                 }}
                             >
-                                CV
+                                {/* Glowing sweep animation */}
+                                <span className="absolute inset-0 -translate-x-full group-hover:animate-[cv-shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+
+                                <span className="relative z-10 font-bold tracking-wide" style={{ fontFamily: "var(--font-syne)", color: "var(--text-heading)", fontSize: "14px" }}>
+                                    Mon CV
+                                </span>
+                                <svg className="w-4 h-4 relative z-10 text-teal-400 group-hover:translate-y-0.5 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -190,17 +222,22 @@ export default function Navbar() {
                     ))}
                     <li className={`mt-4 transition-all duration-500 delay-500 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                         <div className="flex flex-col items-center gap-6">
-                            <ThemeToggle />
                             <a
                                 href={`${basePath}/resume.pdf`}
-                                className="px-8 py-3 border rounded-full font-bold shadow-inner"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group relative px-10 py-3 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 border border-teal-500/30 flex items-center gap-3 shadow-[0_0_20px_rgba(45,212,191,0.2)]"
                                 style={{
-                                    backgroundColor: "var(--border-accent)",
-                                    borderColor: "var(--accent)",
-                                    color: "var(--text-heading)"
+                                    background: "linear-gradient(90deg, rgba(20,184,166,0.15) 0%, rgba(59,130,246,0.15) 100%)",
                                 }}
                             >
-                                Télécharger le CV
+                                <span className="absolute inset-0 -translate-x-full group-hover:animate-[cv-shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+                                <span className="relative z-10 font-bold tracking-wide" style={{ fontFamily: "var(--font-syne)", color: "var(--text-heading)", fontSize: "16px" }}>
+                                    Télécharger le CV
+                                </span>
+                                <svg className="w-5 h-5 relative z-10 text-teal-400 group-hover:translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
                             </a>
                         </div>
                     </li>

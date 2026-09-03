@@ -29,46 +29,56 @@ export default function ThemeToggle() {
     };
 
     return (
-        <button
-            onClick={toggleTheme}
-            className="relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-            style={{
-                color: "var(--accent)",
-                background: "var(--glass-card)",
-                border: "1px solid var(--border-subtle)",
-            }}
-            aria-label="Basculer le thème"
-        >
-            {/* Sun icon */}
-            <svg
-                className={`w-5 h-5 absolute transition-all duration-500 ${isLight ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-50"
-                    }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        <div className="fixed top-4 left-4 md:top-8 md:left-auto md:right-8 md:translate-x-0 z-[40]">
+            <style>{`
+                @keyframes orbit-float {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-10px); }
+                }
+            `}</style>
+
+            <button
+                onClick={toggleTheme}
+                className="relative w-14 h-14 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-[1200ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-110 group cursor-pointer"
+                style={{
+                    animation: "orbit-float 6s ease-in-out infinite",
+                    boxShadow: isLight
+                        ? "0 0 120px rgba(250, 204, 21, 0.4), inset 0 0 40px rgba(250, 204, 21, 0.8), inset 15px 15px 30px rgba(255, 255, 255, 0.8)"
+                        : "0 0 100px rgba(45, 212, 191, 0.2), inset -20px -20px 50px rgba(0, 0, 0, 0.8), inset 10px 10px 30px rgba(255, 255, 255, 0.9)",
+                    background: isLight
+                        ? "radial-gradient(circle at 30% 30%, #fef08a 0%, #eab308 50%, #ca8a04 100%)"
+                        : "radial-gradient(circle at 35% 30%, #f1f5f9 0%, #cbd5e1 40%, #94a3b8 80%, #475569 100%)",
+                    transform: isLight ? 'rotate(0deg)' : 'rotate(-15deg)'
+                }}
+                aria-label="Basculer le thème"
             >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-            </svg>
-            {/* Moon icon */}
-            <svg
-                className={`w-5 h-5 absolute transition-all duration-500 ${isLight ? "opacity-0 -rotate-90 scale-50" : "opacity-100 rotate-0 scale-100"
-                    }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                />
-            </svg>
-        </button>
+                {/* Photorealistic Volumetric Glare (Orb Reflection) */}
+                <div className={`absolute top-1 left-2 md:top-2 md:left-4 w-3/4 h-1/3 bg-gradient-to-b from-white/30 to-transparent rounded-[100%] rotate-[-15deg] pointer-events-none transition-opacity duration-1000 z-10 mix-blend-overlay ${isLight ? 'opacity-80' : 'opacity-40'}`} />
+
+                {/* Tooltip to explain action */}
+                <span className="absolute -bottom-12 md:-bottom-16 left-1/2 -translate-x-1/2 whitespace-nowrap text-sm font-bold px-4 py-2 bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)] pointer-events-none" style={{ fontFamily: "var(--font-syne)" }}>
+                    {isLight ? 'Mode Sombre' : 'Mode Clair'}
+                </span>
+
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full pointer-events-none">
+                    {/* Background base to ensure space stays dark */}
+                    <div className="absolute inset-0 bg-black/80" />
+
+                    {/* Images from user */}
+                    <img
+                        src="/lune.png"
+                        alt="Moon"
+                        className={`absolute inset-0 w-full h-full object-cover scale-[1.35] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 rotate-0'}`}
+                    />
+
+                    <img
+                        src="/soleil.png"
+                        alt="Sun"
+                        className={`absolute inset-0 w-full h-full object-cover scale-[1.4] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90 scale-50'}`}
+                    />
+                </div>
+                {/* Hide standard SVG icons since the button itself IS the celestial body */}
+            </button>
+        </div>
     );
 }

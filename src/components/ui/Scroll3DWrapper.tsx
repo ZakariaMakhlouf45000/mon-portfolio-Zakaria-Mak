@@ -1,54 +1,75 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function Scroll3DWrapper({ children }: { children: React.ReactNode }) {
-    const [scrollDepth, setScrollDepth] = useState(0);
+    const outerRef = useRef<HTMLDivElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
+    const wobbleRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        let frame: number;
+        let ticking = false;
+
         const updateScroll = () => {
-            frame = requestAnimationFrame(() => {
-                const currentScrollY = window.scrollY;
-                const scrollHeight = document.body.scrollHeight - window.innerHeight;
-                if (scrollHeight > 0) {
-                    setScrollDepth(currentScrollY / scrollHeight);
+            const inner = innerRef.current;
+            if (!inner) return;
+
+            const scrollHeight = document.body.scrollHeight - window.innerHeight;
+            if (scrollHeight <= 0) return;
+
+            const scrollDepth = window.scrollY / scrollHeight;
+            const scale = 1 - scrollDepth * 0.05;
+            const ty = scrollDepth * 20;
+            const tz = scrollDepth * -50;
+
+            inner.style.transform = `translate3d(0, ${ty}px, ${tz}px) scale(${scale})`;
+
+            // Wobble at bottom
+            const wobble = wobbleRef.current;
+            if (wobble) {
+                if (scrollDepth >= 0.95) {
+                    wobble.classList.add("animate-liquid-wobble");
+                } else {
+                    wobble.classList.remove("animate-liquid-wobble");
                 }
-            });
+            }
+
+            ticking = false;
         };
 
-        window.addEventListener("scroll", updateScroll, { passive: true });
-        // Initial setup
-        const initialTimer = setTimeout(updateScroll, 100);
-        return () => {
-            window.removeEventListener("scroll", updateScroll);
-            if (frame) cancelAnimationFrame(frame);
-            clearTimeout(initialTimer);
+        const onScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(updateScroll);
+            }
         };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        requestAnimationFrame(updateScroll);
+
+        return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    // Calculate dynamic 3D styles based on scroll completion (0 to 1)
-    // Sensation of descents: shrink a tiny bit, and perspective pushes back slightly.
-    const transformScale = 1 - (scrollDepth * 0.05); // Scales down from 1 to 0.95 globally
-    const transformTranslateY = scrollDepth * 20; // 0 to 20px
-    const transformTranslateZ = scrollDepth * -50;
-    const perspective = "2000px";
-
-    // Earthquake triggers if user is >= 95% scrolled
-    const isEarthquake = scrollDepth >= 0.95;
-
     return (
-        <div style={{ perspective, transformStyle: "preserve-3d" }} className="w-full h-full overflow-clip">
+        <div
+            ref={outerRef}
+            style={{ perspective: "2000px", transformStyle: "preserve-3d" }}
+            className="w-full h-full overflow-clip"
+        >
             <div
-                className="w-full h-full transition-transform duration-[400ms] ease-[cubic-bezier(0.33,1,0.68,1)]"
+                ref={innerRef}
+                className="w-full h-full"
                 style={{
-                    transform: `translate3d(0, ${transformTranslateY}px, ${transformTranslateZ}px) scale(${transformScale})`,
                     transformOrigin: "center top",
                     willChange: "transform",
-                    transformStyle: "preserve-3d"
+                    transformStyle: "preserve-3d",
                 }}
             >
-                <div className={`w-full h-full origin-bottom ${isEarthquake ? "animate-liquid-wobble" : ""}`} style={{ transformStyle: "preserve-3d" }}>
+                <div
+                    ref={wobbleRef}
+                    className="w-full h-full origin-bottom"
+                    style={{ transformStyle: "preserve-3d" }}
+                >
                     {children}
                 </div>
             </div>
