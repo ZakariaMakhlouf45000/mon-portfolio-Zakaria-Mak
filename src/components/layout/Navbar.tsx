@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const basePath = "";
+const resumeUrl = `${basePath}/resume.pdf?v=2026-09-03`;
 
 const navItems = [
     { label: "À propos", href: "#about", num: "01" },
@@ -141,7 +142,7 @@ export default function Navbar() {
                             `}</style>
                             {/* Premium CV Button Desktop */}
                             <a
-                                href={`${basePath}/resume.pdf`}
+                                href={resumeUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group relative px-6 py-2 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] border border-teal-500/30 flex items-center gap-2"
@@ -228,7 +229,7 @@ export default function Navbar() {
                     <li className={`mt-4 transition-all duration-500 delay-500 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
                         <div className="flex flex-col items-center gap-6">
                             <a
-                                href={`${basePath}/resume.pdf`}
+                                href={resumeUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group relative px-10 py-3 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 border border-teal-500/30 flex items-center gap-3 shadow-[0_0_20px_rgba(45,212,191,0.2)]"
