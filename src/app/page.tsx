@@ -7,7 +7,6 @@ import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 import Expertise from "@/components/sections/Expertise";
 import Contact from "@/components/sections/Contact";
-import InternshipPopup from "@/components/ui/InternshipPopup";
 import Scroll3DWrapper from "@/components/ui/Scroll3DWrapper";
 import TerminalBackground from "@/components/ui/TerminalBackground";
 import ScrollProgress from "@/components/ui/ScrollProgress";
@@ -22,7 +21,6 @@ export default function Home() {
             <TerminalBackground />
             <FloatingParticles />
             <ScrollProgress />
-            <InternshipPopup />
             <SpotlightCursor />
             <CustomCursor />
             <Navbar />
