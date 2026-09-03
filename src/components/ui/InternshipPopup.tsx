@@ -51,6 +51,18 @@ export default function InternshipPopup() {
         setTimeout(() => setIsRendered(false), 700); // Wait for exit animation
     };
 
+    const scrollToProfile = () => {
+        setIsVisible(false);
+        setTimeout(() => setIsRendered(false), 700);
+        // Scroll directly to the About section
+        setTimeout(() => {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 100);
+    };
+
     if (!isRendered) return null;
 
     return (
@@ -107,8 +119,8 @@ export default function InternshipPopup() {
                     </div>
 
                     <button
-                        onClick={closePopup}
-                        className="group relative px-8 py-3 rounded-full font-bold overflow-hidden transition-transform md:hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(0,0,0,0.2)] touch-manipulation"
+                        onClick={scrollToProfile}
+                        className="group relative px-8 py-3 rounded-full font-bold overflow-hidden transition-transform md:hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(0,0,0,0.2)] touch-manipulation z-50 pointer-events-auto"
                         style={{ backgroundColor: 'var(--text-primary)', color: 'var(--bg-primary)' }}
                     >
                         <span className="relative z-10">Découvrir mon profil</span>
