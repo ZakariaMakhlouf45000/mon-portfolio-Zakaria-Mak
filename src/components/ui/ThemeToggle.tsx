@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 
+const basePath = process.env.NODE_ENV === "production" ? "/mon-portfolio-Zakaria-Mak" : "";
+
 export default function ThemeToggle() {
     const [isLight, setIsLight] = useState(false);
 
@@ -64,13 +66,13 @@ export default function ThemeToggle() {
 
                     {/* Images from user */}
                     <img
-                        src="/lune.png"
+                        src={`${basePath}/lune.png`}
                         alt="Moon"
                         className={`absolute inset-0 w-full h-full object-cover scale-[1.35] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 rotate-0'}`}
                     />
 
                     <img
-                        src="/soleil.png"
+                        src={`${basePath}/soleil.png`}
                         alt="Sun"
                         className={`absolute inset-0 w-full h-full object-cover scale-[1.4] transition-all duration-[1200ms] ease-out ${isLight ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90 scale-50'}`}
                     />
