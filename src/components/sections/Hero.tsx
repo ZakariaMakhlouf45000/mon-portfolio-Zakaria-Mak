@@ -34,6 +34,7 @@ export default function Hero() {
 
     const [isMounted, setIsMounted] = useState(false);
     const [charIndex, setCharIndex] = useState(0);
+    const [isMobileState, setIsMobileState] = useState(true);
 
     // Track layers for direct DOM updates
     const addToLayer = useCallback((layer: number) => (el: HTMLDivElement | null) => {
@@ -46,6 +47,7 @@ export default function Hero() {
     useEffect(() => {
         setIsMounted(true);
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        setIsMobileState(isMobile);
 
         // Typing animation (kept as state since it only changes ~260 times)
         const typingInterval = setInterval(() => {
@@ -166,12 +168,15 @@ export default function Hero() {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             className="hero-stage flex flex-col justify-center min-h-[90vh] md:min-h-screen pt-28 pb-16 relative overflow-x-clip"
-            style={{ perspective: "2500px" }}
+            style={isMobileState ? undefined : { perspective: "2500px" }}
         >
             <div
                 ref={cubeRef}
                 className="w-full h-full flex flex-col justify-center relative"
-                style={{
+                style={isMobileState ? {
+                    transformOrigin: "bottom center",
+                    willChange: "transform, opacity",
+                } : {
                     transformOrigin: "bottom center",
                     willChange: "transform, opacity",
                     transformStyle: "preserve-3d",
@@ -186,16 +191,16 @@ export default function Hero() {
                     }}
                 />
 
-                <div className="z-10 relative w-[94%] xl:w-[96%] max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 xl:gap-20 items-center" style={{ perspective: "1500px", transformStyle: "preserve-3d" }}>
+                <div className="z-10 relative w-[94%] xl:w-[96%] max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 xl:gap-20 items-center" style={isMobileState ? undefined : { perspective: "1500px", transformStyle: "preserve-3d" }}>
 
-                    <div className="lg:col-span-7 xl:col-span-7 pr-0 lg:pr-8" style={{ transformStyle: "preserve-3d" }}>
+                    <div className="lg:col-span-7 xl:col-span-7 pr-0 lg:pr-8" style={isMobileState ? undefined : { transformStyle: "preserve-3d" }}>
                         <Reveal delay={0}>
-                            <div ref={addToLayer(1)} className="inline-block relative origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
+                            <div ref={addToLayer(1)} className="inline-block relative origin-left" style={isMobileState ? { willChange: "transform, opacity" } : { willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
                                 <p
                                     className="eyebrow mb-8 px-5 py-3 rounded-full backdrop-blur-sm text-sm uppercase tracking-widest box-3d-relief z-20 bg-slate-900/10 border-none font-bold"
                                     style={{
                                         color: "var(--accent)",
-                                        transform: "translateZ(80px) rotateX(-5deg)",
+                                        transform: isMobileState ? undefined : "translateZ(80px) rotateX(-5deg)",
                                     }}
                                 >
                                     Salut, je suis Zakaria <span className="opacity-50 mx-2" style={{ color: "var(--text-secondary)" }}>/</span> creative developer
@@ -204,15 +209,15 @@ export default function Hero() {
                         </Reveal>
 
                         <Reveal delay={100}>
-                            <div ref={addToLayer(3)} className="origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
+                            <div ref={addToLayer(3)} className="origin-left" style={isMobileState ? { willChange: "transform, opacity" } : { willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
                                 <h1
                                     className="hero-title text-5xl md:text-7xl lg:text-6xl xl:text-[6.5rem] font-bold mb-6 tracking-tighter leading-[1.05] drop-shadow-2xl origin-left"
                                     style={{ color: "var(--text-heading)" }}
                                 >
-                                    <span className="inline-block text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={{ transform: "translateZ(120px) rotateX(8deg)" }}>
+                                    <span className="inline-block text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={isMobileState ? undefined : { transform: "translateZ(120px) rotateX(8deg)" }}>
                                         Des interfaces
                                     </span><br />
-                                    <em className="relative inline-block leading-tight pt-2 not-italic text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={{ color: "var(--accent)", transform: "translateZ(180px) rotateY(-5deg) rotateX(15deg)" }}>
+                                    <em className="relative inline-block leading-tight pt-2 not-italic text-3d-relief transition-transform duration-700 ease-out hover:scale-110" style={isMobileState ? { color: "var(--accent)" } : { color: "var(--accent)", transform: "translateZ(180px) rotateY(-5deg) rotateX(15deg)" }}>
                                         vivantes.
                                     </em>
                                 </h1>
@@ -220,25 +225,25 @@ export default function Hero() {
                         </Reveal>
 
                         <Reveal delay={200}>
-                            <div ref={addToLayer(2)} className="origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
+                            <div ref={addToLayer(2)} className="origin-left" style={isMobileState ? { willChange: "transform, opacity" } : { willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
                                 <p
                                     className="max-w-xl text-base md:text-xl lg:text-2xl mb-12 leading-relaxed origin-left font-medium"
                                     style={{ color: "var(--text-secondary)" }}
                                 >
-                                    Étudiant en <span className="border-b-[3px] pb-1 transition-colors relative inline-block text-3d-relief" style={{ color: "var(--text-heading)", borderColor: "var(--accent)", transform: "translateZ(40px)" }}>BUT Informatique</span>, je transforme des systèmes complexes en expériences web claires, sensibles et mémorables.
+                                    Étudiant en <span className="border-b-[3px] pb-1 transition-colors relative inline-block text-3d-relief" style={isMobileState ? { color: "var(--text-heading)", borderColor: "var(--accent)" } : { color: "var(--text-heading)", borderColor: "var(--accent)", transform: "translateZ(40px)" }}>BUT Informatique</span>, je transforme des systèmes complexes en expériences web claires, sensibles et mémorables.
                                 </p>
                             </div>
                         </Reveal>
 
                         <Reveal delay={300}>
-                            <div ref={addToLayer(1)} className="flex flex-wrap gap-6 md:gap-8 origin-left" style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
+                            <div ref={addToLayer(1)} className="flex flex-wrap gap-6 md:gap-8 origin-left" style={isMobileState ? { willChange: "transform, opacity" } : { willChange: "transform, opacity", transformStyle: "preserve-3d" }}>
                                 <a
                                     href="#contact"
                                     className="group relative px-6 md:px-8 py-3 md:py-4 overflow-hidden rounded-full font-mono text-sm tracking-wider transition-all duration-300 font-bold box-3d-relief"
                                     style={{
                                         backgroundColor: "var(--accent)",
                                         color: "var(--bg-primary)",
-                                        transform: "translateZ(100px)"
+                                        transform: isMobileState ? undefined : "translateZ(100px)"
                                     }}
                                 >
                                     <span className="relative z-10 flex items-center gap-2">
@@ -252,7 +257,7 @@ export default function Hero() {
                                     className="px-6 md:px-8 py-3 md:py-4 rounded-full font-mono text-sm tracking-wider transition-all duration-300 box-3d-relief flex items-center gap-2 bg-slate-900/10 backdrop-blur-md font-bold"
                                     style={{
                                         color: "var(--text-heading)",
-                                        transform: "translateZ(60px)"
+                                        transform: isMobileState ? undefined : "translateZ(60px)"
                                     }}
                                 >
                                     Voir mes projets

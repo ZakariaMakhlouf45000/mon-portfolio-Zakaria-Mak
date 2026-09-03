@@ -29,15 +29,22 @@ export default function TerminalBackground() {
 
     useEffect(() => {
         setIsMounted(true);
+
+        // Lighter settings on mobile to prevent jank
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+        const maxLines = isMobile ? 10 : 30;
+        const intervalMs = isMobile ? 800 : 300;
+        const initialCount = isMobile ? 8 : 20;
+
         const addLine = () => {
             const randomLine = CODE_LINES[Math.floor(Math.random() * CODE_LINES.length)];
-            setLines(prev => [...prev.slice(-30), randomLine]); // keep last 30 lines
+            setLines(prev => [...prev.slice(-maxLines), randomLine]);
         };
 
-        const interval = setInterval(addLine, 300); // Faster matrix falling effect
+        const interval = setInterval(addLine, intervalMs);
 
         // Populate initially
-        for (let i = 0; i < 20; i++) addLine();
+        for (let i = 0; i < initialCount; i++) addLine();
 
         return () => clearInterval(interval);
     }, []);
