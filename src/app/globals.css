@@ -146,6 +146,23 @@ span {
   border-color: var(--border-accent);
 }
 
+@media (max-width: 768px) {
+  .glass-nav {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--bg-primary) 90%, transparent);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  body {
+    overscroll-behavior-y: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

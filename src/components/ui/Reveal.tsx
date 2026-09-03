@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, ReactNode, useState } from "react";
 
 interface RevealProps {
     children: ReactNode;
@@ -21,7 +21,11 @@ export default function Reveal({
 }: RevealProps) {
     const ref = useRef<HTMLDivElement>(null);
 
+    const [isMobile, setIsMobile] = useState(false);
+
     useEffect(() => {
+        setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+
         const element = ref.current;
         if (!element) return;
 
@@ -34,8 +38,10 @@ export default function Reveal({
                     revealTimeout = setTimeout(() => {
                         revealFrame = requestAnimationFrame(() => {
                             element.style.opacity = "1";
-                            element.style.transform = "perspective(1200px) translate3d(0, 0, 0) rotateX(0deg) scale(1)";
-                            element.style.filter = "blur(0px)";
+                            element.style.transform = isMobile
+                                ? "translate3d(0, 0, 0)"
+                                : "perspective(1200px) translate3d(0, 0, 0) rotateX(0deg) scale(1)";
+                            element.style.filter = "none";
                         });
                     }, delay);
                     observer.unobserve(element);
@@ -51,9 +57,18 @@ export default function Reveal({
             if (revealTimeout) clearTimeout(revealTimeout);
             cancelAnimationFrame(revealFrame);
         };
-    }, [delay, threshold]);
+    }, [delay, threshold, isMobile]);
 
     const getInitialTransform = () => {
+        if (isMobile) {
+            switch (direction) {
+                case "up": return "translate3d(0, 40px, 0)";
+                case "left": return "translate3d(-40px, 0, 0)";
+                case "right": return "translate3d(40px, 0, 0)";
+                default: return "translate3d(0, 40px, 0)";
+            }
+        }
+
         switch (direction) {
             case "up":
                 return "perspective(1200px) translate3d(0, 50px, -80px) rotateX(6deg) scale(0.96)";
@@ -72,11 +87,13 @@ export default function Reveal({
             className={className}
             style={{
                 opacity: 0,
-                filter: "blur(4px)",
+                filter: isMobile ? "none" : "blur(4px)",
                 transform: getInitialTransform(),
-                transition: `transform 900ms cubic-bezier(0.16, 1, 0.3, 1), opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 600ms ease-out`,
+                transition: isMobile
+                    ? `transform 700ms cubic-bezier(0.16, 1, 0.3, 1), opacity 600ms cubic-bezier(0.16, 1, 0.3, 1)`
+                    : `transform 900ms cubic-bezier(0.16, 1, 0.3, 1), opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 600ms ease-out`,
                 willChange: "transform, opacity",
-                transformStyle: "preserve-3d",
+                ...(isMobile ? {} : { transformStyle: "preserve-3d" }),
                 contain: "layout style",
                 ...style,
             }}

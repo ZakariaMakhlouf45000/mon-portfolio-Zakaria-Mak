@@ -285,11 +285,9 @@ export default function Projects() {
                         href="https://github.com/ZakariaMakhlouf45000"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative flex items-center gap-6 pr-8 p-2 rounded-full cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-2"
+                        className="group relative flex items-center gap-6 pr-8 p-2 rounded-full cursor-pointer transition-transform duration-500 ease-out hover:-translate-y-2 backdrop-blur-sm md:backdrop-blur-[20px] shadow-md md:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5),inset_0_2px_10px_rgba(255,255,255,0.1),inset_0_-2px_10px_rgba(20,184,166,0.2)]"
                         style={{
                             background: "linear-gradient(135deg, rgba(20,184,166,0.1) 0%, rgba(15,23,42,0.6) 100%)",
-                            boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.1), inset 0 -2px 10px rgba(20,184,166,0.2)",
-                            backdropFilter: "blur(20px)",
                             border: "1px solid rgba(45,212,191,0.2)",
                             transform: "translateZ(60px)"
                         }}
