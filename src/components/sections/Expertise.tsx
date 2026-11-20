@@ -35,7 +35,7 @@ const skills = [
     },
     {
         name: "Python",
-        sub: "Data & IA",
+        sub: "Flask / Algorithmique",
         color: "#eab308",
         icon: (
             <RealisticBadge animClass="animate-[skill-slither_5s_ease-in-out_infinite]">
@@ -45,7 +45,7 @@ const skills = [
     },
     {
         name: "SQL",
-        sub: "MySQL / PostgreSQL",
+        sub: "MySQL / MariaDB / PL/SQL",
         color: "#f97316",
         icon: (
             <RealisticBadge animClass="animate-[skill-db-pulse_3s_ease-in-out_infinite]">
@@ -64,8 +64,8 @@ const skills = [
         ),
     },
     {
-        name: "Web Design",
-        sub: "Tailwind / React",
+        name: "Web",
+        sub: "React / Next.js / Tailwind",
         color: "#60a5fa",
         icon: (
             <RealisticBadge animClass="animate-[skill-spin_10s_linear_infinite]">

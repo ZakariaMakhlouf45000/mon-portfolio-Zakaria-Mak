@@ -44,7 +44,7 @@ export default function Footer() {
 
             <p>Conçu & Développé par Zakaria Makhlouf</p>
             <p className="mt-2 opacity-70 text-[10px]">
-                Propulsé par Next.js, Tailwind CSS & GitHub Pages
+                Propulsé par Next.js, Tailwind CSS & Vercel
             </p>
         </footer>
     );

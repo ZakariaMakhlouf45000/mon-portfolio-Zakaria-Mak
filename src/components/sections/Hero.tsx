@@ -9,8 +9,8 @@ const codeTokens = [
     { type: 'keyword', text: 'function ' }, { type: 'function', text: 'System' }, { type: 'text', text: '() {\n' },
     { type: 'keyword', text: '  return ' }, { type: 'text', text: '(\n' },
     { type: 'text', text: '    <' }, { type: 'component', text: 'Creative' }, { type: 'br', text: '\n' },
-    { type: 'prop', text: '      role' }, { type: 'text', text: '=' }, { type: 'string', text: '"Frontend Developer"' }, { type: 'br', text: '\n' },
-    { type: 'prop', text: '      impact' }, { type: 'text', text: '=' }, { type: 'string', text: '"High"' }, { type: 'br', text: '\n' },
+    { type: 'prop', text: '      role' }, { type: 'text', text: '=' }, { type: 'string', text: '"Développeur Fullstack"' }, { type: 'br', text: '\n' },
+    { type: 'prop', text: '      lead' }, { type: 'text', text: '=' }, { type: 'string', text: '"Chef de projet"' }, { type: 'br', text: '\n' },
     { type: 'text', text: '    />\n' },
     { type: 'text', text: '  );\n' },
     { type: 'text', text: '}\n\n' },
@@ -206,7 +206,7 @@ export default function Hero() {
                                         transform: isMobileState ? undefined : "translateZ(80px) rotateX(-5deg)",
                                     }}
                                 >
-                                    Salut, je suis Zakaria <span className="opacity-50 mx-2" style={{ color: "var(--text-secondary)" }}>/</span> creative developer
+                                    Salut, je suis Zakaria <span className="opacity-50 mx-2" style={{ color: "var(--text-secondary)" }}>/</span> développeur web &amp; chef de projet
                                 </p>
                             </div>
                         </Reveal>

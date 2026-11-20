@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const basePath = "";
-const resumeUrl = `${basePath}/resume.pdf?v=2026-09-03`;
+const resumeUrl = `${basePath}/resume.pdf?v=2026-11-20`;
 
 const navItems = [
     { label: "À propos", href: "#about", num: "01" },

@@ -65,9 +65,15 @@ function Typewriter() {
 
 const timeline = [
     {
+        title: "Développeur web indépendant",
+        period: "Depuis 2025 | Micro-entreprise",
+        desc: "2 clients (TPE en Île-de-France) : prospection, audit de leur site, sites marchands et application de prise de rendez-vous avec devis.",
+        active: true,
+    },
+    {
         title: "BUT Informatique",
-        period: "2024 - Présent | IUT d'Orléans",
-        desc: "Développement logiciel, Web, Réseaux, Bases de données.",
+        period: "2e année en cours | IUT d'Orléans",
+        desc: "Développement web et logiciel, bases de données, conduite de projet agile. Chef de projet sur la SAE Festiut'O.",
         active: true,
     },
     {
@@ -143,12 +149,13 @@ export default function About() {
                                 <Reveal delay={200}>
                                     <p className="text-[16px] md:text-lg leading-relaxed" style={{ color: "var(--text-secondary)", transform: "translateZ(15px)" }}>
                                         Aujourd&apos;hui, je suis en{" "}
-                                        <span className="inline-flex items-center px-3 py-0.5 rounded-lg bg-teal-500/10 border border-teal-500/30 shadow-[0_0_15px_rgba(20,184,166,0.15)] font-mono text-[14px] font-bold tracking-wide mr-1" style={{ color: "var(--accent)", transform: "translateY(-1px)" }}>BUT Informatique</span>
+                                        <span className="inline-flex items-center px-3 py-0.5 rounded-lg bg-teal-500/10 border border-teal-500/30 shadow-[0_0_15px_rgba(20,184,166,0.15)] font-mono text-[14px] font-bold tracking-wide mr-1" style={{ color: "var(--accent)", transform: "translateY(-1px)" }}>BUT Informatique</span>{" "}
                                         à l&apos;<strong className="text-white drop-shadow-md px-1">IUT d&apos;Orléans</strong>, où je consolide mes bases en algorithmique,
                                         gestion de bases de données et architecture réseau.
                                         <br /><br />
-                                        Mon objectif est de devenir un ingénieur logiciel complet, capable de résoudre
-                                        des problèmes architecturaux complexes et d'optimiser l'expérience utilisateur.
+                                        En parallèle, je suis développeur web indépendant : je trouve mes clients,
+                                        j&apos;analyse leurs besoins et je livre des sites et applications sur mesure.
+                                        Mon objectif : un Master MIAGE, pour évoluer vers la conduite de projets informatiques.
                                     </p>
                                 </Reveal>
 

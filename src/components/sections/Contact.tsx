@@ -36,8 +36,9 @@ export default function Contact() {
                     className="text-lg mb-12 leading-relaxed"
                     style={{ color: "var(--text-secondary)" }}
                 >
-                    À la recherche d&apos;une alternance pour{" "}
-                    <strong className="highlight">Septembre 2026</strong>. Ma boîte de
+                    À la recherche d&apos;un{" "}
+                    <strong className="highlight">stage de 8 semaines à partir d&apos;avril 2027</strong>{" "}
+                    (2e année de BUT Informatique). Ma boîte de
                     réception est toujours ouverte, que ce soit pour une opportunité ou
                     simplement pour échanger !
                 </p>

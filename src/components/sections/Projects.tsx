@@ -6,8 +6,38 @@ import React from "react";
 import { BookIcon } from "@/components/icons/BookIcon";
 import { NetworkIcon } from "@/components/icons/NetworkIcon";
 import { HangmanIcon } from "@/components/icons/HangmanIcon";
+import { GraphIcon } from "@/components/icons/GraphIcon";
 
-const projects = [
+const projects: {
+    title: string;
+    subtitle: string;
+    description: string;
+    tags: string[];
+    gradient: string;
+    gradientHover: string;
+    icon: React.ReactNode;
+    url?: string;
+}[] = [
+    {
+        title: "Festiut'O",
+        subtitle: "SAE 3.01 - Chef de projet",
+        description:
+            "Application web développée en équipe. Je pilote l'équipe (organisation, répartition des tâches, revue du travail de chacun) et je suis responsable de l'architecture, du modèle de données et de la base MariaDB.",
+        tags: ["Python", "Flask", "MariaDB", "Gestion de projet"],
+        gradient: "from-teal-900/80 to-slate-900/80",
+        gradientHover: "from-teal-800/80",
+        icon: <GraphIcon />,
+    },
+    {
+        title: "Prise de rendez-vous & devis",
+        subtitle: "Mission freelance - Client TPE",
+        description:
+            "Application conçue pour un client : prise de rendez-vous en ligne, formulaire et génération de devis. Mission décrochée par prospection directe, après un audit du site existant.",
+        tags: ["Développement web", "Formulaires & devis", "Relation client"],
+        gradient: "from-sky-900/80 to-slate-900/80",
+        gradientHover: "from-sky-800/80",
+        icon: <BookIcon />,
+    },
     {
         title: "Gestion de Librairie",
         subtitle: "SAE 2.01 - Application Desktop",
@@ -19,7 +49,7 @@ const projects = [
         icon: <BookIcon />,
     },
     {
-        title: "Architecture Réseau Ent.",
+        title: "Architecture réseau d'entreprise",
         subtitle: "SAE 2.03 - Infrastructure",
         description:
             "Conception d'une infrastructure réseau multi-sites sécurisée. Mise en place de VLANs, routage dynamique et zones démilitarisées (DMZ).",
@@ -33,7 +63,7 @@ const projects = [
         subtitle: "Algorithmique Avancée",
         description:
             "Traitement de données massives (JSON) pour modéliser des réseaux d'acteurs. Implémentation d'algorithmes de plus court chemin.",
-        tags: ["Java", "Graph Theory", "JSON"],
+        tags: ["Java", "Théorie des graphes", "JSON"],
         gradient: "from-purple-900/80 to-slate-900/80",
         gradientHover: "from-purple-800/80",
         icon: (
@@ -74,7 +104,7 @@ const projects = [
         subtitle: "Interface Homme-Machine",
         description:
             "Conception centrée utilisateur d'un jeu classique avec JavaFX. Focus sur l'accessibilité et le feedback visuel.",
-        tags: ["JavaFX", "UX Design", "Event-Driven"],
+        tags: ["JavaFX", "UX Design", "Événementiel"],
         gradient: "from-amber-900/80 to-slate-900/80",
         gradientHover: "from-amber-800/80",
         icon: <HangmanIcon />,
@@ -129,9 +159,11 @@ export default function Projects() {
 
                                 <div className="flex justify-between items-start z-10 relative h-full">
                                     <div style={{ color: "var(--accent)", transform: "translateZ(100px)" }}>{project.icon}</div>
-                                    <div className="flex gap-4" style={{ transform: "translateZ(80px)" }}>
+                                    {project.url && (<div className="flex gap-4" style={{ transform: "translateZ(80px)" }}>
                                         <a
-                                            href="#"
+                                            href={project.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="transition-colors backdrop-blur-md bg-white/10 p-3 rounded-full box-3d-relief hover:bg-white/20 text-white"
                                             title="Code Source"
                                             aria-label="Code Source"
@@ -140,13 +172,13 @@ export default function Projects() {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                             </svg>
                                         </a>
-                                    </div>
+                                    </div>)}
                                 </div>
                             </div>
 
                             {/* Card Body */}
                             <div className="p-8 md:p-10 flex flex-col flex-1 bg-[var(--bg-tertiary)] backdrop-blur-sm border-t border-[var(--border-subtle)] rounded-b-2xl shadow-inner transition-colors duration-500" style={{ transformStyle: "preserve-3d" }}>
-                                <p className="font-mono text-sm mb-4 font-bold tracking-widest uppercase" style={{ transform: "translateZ(30px)", color: "var(--accent)" }}>CASE STUDY / 0{i + 1}</p>
+                                <p className="font-mono text-sm mb-4 font-bold tracking-widest uppercase" style={{ transform: "translateZ(30px)", color: "var(--accent)" }}>PROJET / 0{i + 1}</p>
                                 <h3
                                     className="text-3xl font-extrabold mb-4 transition-all duration-300 md:group-hover:text-transparent md:group-hover:bg-clip-text text-transparent bg-clip-text z-10 relative"
                                     style={{
@@ -231,10 +263,10 @@ export default function Projects() {
                         {/* Text Content */}
                         <div className="flex flex-col items-start justify-center">
                             <span className="font-mono text-xs text-teal-400/80 uppercase tracking-widest mb-1 shadow-sm">
-                                Découvrir
+                                GitHub
                             </span>
                             <span className="font-bold text-lg text-slate-100 group-hover:text-teal-300 transition-colors drop-shadow-md">
-                                Explorer mon univers
+                                Voir tout mon code
                             </span>
                         </div>
 

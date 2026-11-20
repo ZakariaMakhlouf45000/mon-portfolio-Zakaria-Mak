@@ -24,23 +24,23 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Zakaria Makhlouf | Développeur Fullstack & Étudiant",
+    title: "Zakaria Makhlouf | Développeur web & chef de projet — Stage BUT 2",
     description:
-        "Portfolio de Zakaria Makhlouf, étudiant en informatique et développeur Fullstack.",
+        "Portfolio de Zakaria Makhlouf, étudiant en BUT Informatique à Orléans et développeur web indépendant. Recherche un stage de 8 semaines à partir d'avril 2027.",
     keywords: [
         "Zakaria Makhlouf",
         "développeur",
         "fullstack",
         "portfolio",
         "BUT Informatique",
+        "stage",
+        "Orléans",
     ],
 };
 
 export const viewport: Viewport = {
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
 };
 
 export default function RootLayout({
